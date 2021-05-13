@@ -1,9 +1,20 @@
-bash:
-	- cd .. && docker-compose exec escola_lms_app bash -c "cd ../package"
-test:
-	- cd .. && docker-compose exec escola_lms_app bash -c "cd ../package && phpunit"
-test-log:
-	- cd .. && docker-compose exec escola_lms_app bash -c "cd ../package && cat ./vendor/orchestra/testbench-core/laravel/storage/logs/laravel.log"
-
-log:
-	- cd .. && cat host/storage/logs/laravel.log
+up:
+	- cd env && docker-compose up -d
+down:
+	- cd env && docker-compose down
+bash-php74: up
+	- cd env && docker-compose exec escola_lms_app74 bash
+test-php74: up
+	- cd env && docker-compose exec escola_lms_app74 bash -c 'cp env/mysql/* .'
+	- cd env && docker-compose exec escola_lms_app74 composer update
+	- cd env && docker-compose exec escola_lms_app74 vendor/bin/testbench config:clear
+	- cd env && docker-compose exec escola_lms_app74 vendor/bin/testbench migrate:fresh
+	- cd env && docker-compose exec escola_lms_app74 vendor/bin/phpunit
+bash-php80: up
+	- cd env && docker-compose exec escola_lms_app80 bash
+test-php80: up
+	- cd env && docker-compose exec escola_lms_app80 bash -c 'cp env/mysql/* .'
+	- cd env && docker-compose exec escola_lms_app80 composer update
+	- cd env && docker-compose exec escola_lms_app80 vendor/bin/testbench config:clear
+	- cd env && docker-compose exec escola_lms_app80 vendor/bin/testbench migrate:fresh
+	- cd env && docker-compose exec escola_lms_app80 vendor/bin/phpunit
