@@ -31,7 +31,7 @@ class Page extends Model
 {
     use HasFactory;
 
-    public $table = 'pages';
+    public $table = 'escolalms_pages';
     public $timestamps = false;
 
     /**

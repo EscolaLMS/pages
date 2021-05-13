@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePagesTable extends Migration
 {
-    private string $table = 'pages';
+    private string $table = 'escolalms_pages';
 
     public function up()
     {

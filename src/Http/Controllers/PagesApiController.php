@@ -10,7 +10,6 @@ use EscolaLms\Pages\Http\Requests\PageListingRequest;
 use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
 use EscolaLms\Pages\Http\Requests\PageViewRequest;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
-use EscolaLms\Pages\Models\Page;
 use Illuminate\Http\JsonResponse;
 
 class PagesApiController extends EscolaLmsBaseController implements PagesApiContract

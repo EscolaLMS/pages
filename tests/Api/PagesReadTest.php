@@ -2,10 +2,7 @@
 
 namespace EscolaLms\Pages\Tests\Model;
 
-use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PagesReadTest extends TestCase
 {

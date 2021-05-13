@@ -4,22 +4,24 @@ namespace EscolaLms\Pages\Tests\Model;
 
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PagesListTest extends TestCase
 {
     private string $uri = '/api/pages';
 
-    public function testCanListEmpty()
+    public function testAdminCanListEmpty()
     {
+        $this->authenticateAsAdmin();
+
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $response->assertJsonCount(0);
     }
 
-    public function testCanList()
+    public function testAdminCanList()
     {
+        $this->authenticateAsAdmin();
+
         $pages = Page::factory()
             ->count(10)
             ->create()
@@ -27,7 +29,16 @@ class PagesListTest extends TestCase
         $response = $this->getJson($this->uri);
         $response->assertOk();
         $response->assertJson(
-            $pages->map(fn(Page $p)=>$p->attributesToArray())->all()
+            $pages->map(fn(Page $p) => $p->attributesToArray())
+                ->keyBy('slug')
+                ->map(fn(array $attributes) => collect($attributes)->except(['slug','id'])->all())
+                ->all()
         );
+    }
+
+    public function testGuestCannotList()
+    {
+        $response = $this->getJson($this->uri);
+        $response->assertForbidden();
     }
 }

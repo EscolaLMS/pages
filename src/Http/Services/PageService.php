@@ -16,9 +16,13 @@ class PageService implements PageServiceContract
         $this->repository = $repository;
     }
 
-    public function listAll(): Collection
+    public function listAll(): array
     {
-        return $this->repository->all();
+        return $this->repository->all()
+            ->map(fn(Page $p) => $p->attributesToArray())
+            ->keyBy('slug')
+            ->map(fn(array $attributes) => collect($attributes)->except(['slug','id'])->all())
+            ->all();
     }
 
     public function getBySlug(string $slug): Page

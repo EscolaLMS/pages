@@ -19,9 +19,6 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     {
         parent::setUp();
         $this->seed(DatabaseSeeder::class);
-
-        $user = User::factory()->create()->assignRole('admin');
-        Auth::setUser($user);
     }
 
     protected function getPackageProviders($app): array
@@ -39,5 +36,11 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     {
         parent::getEnvironmentSetUp($app);
         $app['config']->set('passport.client_uuids', false);
+    }
+
+    protected function authenticateAsAdmin()
+    {
+        $user = User::factory()->create()->assignRole('admin');
+        Auth::setUser($user);
     }
 }

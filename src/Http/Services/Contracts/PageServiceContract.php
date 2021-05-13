@@ -10,6 +10,10 @@ use EscolaLms\Pages\Models\Page;
  */
 interface PageServiceContract
 {
-    public function listAll();
+    /**
+     * @return Page[]
+     */
+    public function listAll(): array;
+
     public function getBySlug(string $slug): Page;
 }
