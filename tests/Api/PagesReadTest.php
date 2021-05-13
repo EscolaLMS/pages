@@ -1,6 +1,6 @@
 <?php
 
-namespace EscolaLms\Pages\Tests\Model;
+namespace EscolaLms\Pages\Tests\Api;
 
 use EscolaLms\Pages\Tests\TestCase;
 

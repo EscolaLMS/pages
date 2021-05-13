@@ -30,6 +30,10 @@ class EscolaLmsPagesServiceProvider extends ServiceProvider
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'pages-migrations');
 
+        $this->publishes([
+            __DIR__ . '/../database/seeders' => database_path('seeders'),
+        ], 'pages-seeders');
+
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
 
         if (!config('escolalms.tags.ignore_migrations')) {
