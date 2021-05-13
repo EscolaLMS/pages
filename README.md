@@ -8,3 +8,7 @@ Static page management package
 [![downloads](https://img.shields.io/packagist/dt/escolalms/pages)](https://packagist.org/packages/escolalms/pages)
 [![downloads](https://img.shields.io/packagist/v/escolalms/pages)](https://packagist.org/packages/escolalms/pages)
 [![downloads](https://img.shields.io/packagist/l/escolalms/pages)](https://packagist.org/packages/escolalms/pages)
+
+
+## TODO
+* list -> paging

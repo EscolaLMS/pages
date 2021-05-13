@@ -9,23 +9,21 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *     schema="Page",
- *     required={"slug","title","author_id"},
- *     @OA\Property(
- *          property="slug",
- *          type="string",
- *     ),
+ *     required={"title","author_id"},
  *     @OA\Property(
  *          property="title",
- *          type="string"
+ *          type="string",
+ *          description="page title"
  *     ),
  *     @OA\Property(
  *         property="author_id",
- *         description="author_id",
  *         type="integer",
+ *         description="identifier of the user object who owns a page"
  *     ),
  *     @OA\Property(
  *          property="content",
- *          type="string"
+ *          type="string",
+ *          description="page content"
  *     ),
  * )
  */
