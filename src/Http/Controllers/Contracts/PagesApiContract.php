@@ -227,5 +227,5 @@ interface PagesApiContract
      * @param PageListingRequest $request
      * @return JsonResponse
      */
-    public function view(PageViewRequest $request): JsonResponse;
+    public function read(PageViewRequest $request): JsonResponse;
 }
