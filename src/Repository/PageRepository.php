@@ -25,7 +25,6 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
         return parent::all($search, $skip, $limit, $columns, $orderDirection, $orderColumn);
     }
 
-
     /**
      * @param string $slug
      * @return Page
@@ -34,8 +33,12 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
         return $this->model->newQuery()->where('slug', $slug)->firstOrNew();
     }
 
+    /**
+     * @param Page $page
+     * @return Page
+     */
     public function insert(Page $page)
     {
-        return $this->createUsingModel();
+        return $this->createUsingModel($page);
     }
 }

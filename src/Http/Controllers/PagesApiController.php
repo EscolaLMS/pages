@@ -5,12 +5,13 @@ namespace EscolaLms\Pages\Http\Controllers;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Pages\Http\Controllers\Contracts\PagesApiContract;
 use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
-use EscolaLms\Pages\Http\Requests\PageInsertRequest;
+use EscolaLms\Pages\Http\Requests\PageCreateRequest;
 use EscolaLms\Pages\Http\Requests\PageListingRequest;
 use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
 use EscolaLms\Pages\Http\Requests\PageViewRequest;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class PagesApiController extends EscolaLmsBaseController implements PagesApiContract
 {
@@ -41,13 +42,14 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         }
     }
 
-    public function create(PageInsertRequest $request): JsonResponse
+    public function create(PageCreateRequest $request): JsonResponse
     {
         $slug = $request->getParamSlug();
         $title = $request->getParamTitle();
         $content = $request->getParamContent();
 
-        $this->pageService->insert($slug,$title,$content);
+        $user = Auth::user();
+        $this->pageService->insert($slug,$title,$content,$user->id);
         return $this->sendError('Not implemented', 404);
     }
 

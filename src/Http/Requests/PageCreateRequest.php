@@ -5,7 +5,7 @@ namespace EscolaLms\Pages\Http\Requests;
 use EscolaLms\Core\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PageInsertRequest extends FormRequest
+class PageCreateRequest extends FormRequest
 {
     protected function prepareForValidation()
     {

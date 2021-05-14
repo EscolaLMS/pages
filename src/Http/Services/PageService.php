@@ -30,7 +30,14 @@ class PageService implements PageServiceContract
         return $this->repository->getBySlug($slug);
     }
 
-    public function insert(string $slug, string $title, string $content)
+    public function insert(string $slug, string $title, string $content, int $userId)
     {
+        $page = Page::factory()->newModel([
+            'slug'=>$slug,
+            'title'=>$title,
+            'author_id'=>$userId,
+            'content'=>$content,
+        ]);
+        $this->repository->insert($page);
     }
 }

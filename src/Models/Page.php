@@ -53,6 +53,13 @@ class Page extends Model
         'content' => 'string',
     ];
 
+    public $fillable = [
+        'slug',
+        'title',
+        'author_id',
+        'content'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/

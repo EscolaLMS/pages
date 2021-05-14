@@ -6,7 +6,7 @@ use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\PageRepository;
 use EscolaLms\Pages\Tests\TestCase;
 
-class PagesInsertTest extends TestCase
+class PagesCreateTest extends TestCase
 {
     private function uri(string $slug): string
     {
