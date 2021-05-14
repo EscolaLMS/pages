@@ -1,5 +1,6 @@
 <?php
 
+use EscolaLms\Core\Models\User;
 use EscolaLms\Pages\Models\Page;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -7,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePagesTable extends Migration
 {
-    private string $table = 'pages';
+    private string $table = 'escolalms_pages';
 
     public function up()
     {
@@ -17,7 +18,7 @@ class CreatePagesTable extends Migration
                 $table->id('id');
                 $table->string('slug');
                 $table->string('title');
-                $table->foreignIdFor(\EscolaLms\Core\Models\User::class, 'author_id');
+                $table->foreignIdFor(User::class, 'author_id');
                 $table->longText('content');
             }
         );

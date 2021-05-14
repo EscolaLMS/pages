@@ -2,15 +2,37 @@
 
 namespace EscolaLms\Pages;
 
+use EscolaLms\Core\Providers\Injectable;
+use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
+use EscolaLms\Pages\Http\Services\PageService;
+use EscolaLms\Pages\Repository\Contracts\PageRepositoryContract;
+use EscolaLms\Pages\Repository\PageRepository;
 use Illuminate\Support\ServiceProvider;
 
 class EscolaLmsPagesServiceProvider extends ServiceProvider
 {
+    use Injectable;
+
+    private const CONTRACTS = [
+        PageRepositoryContract::class => PageRepository::class,
+        PageServiceContract::class => PageService::class,
+    ];
+
+    public function register()
+    {
+        parent::register();
+        $this->injectContract(self::CONTRACTS);
+    }
+
     public function boot()
     {
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'pages-migrations');
+
+        $this->publishes([
+            __DIR__ . '/../database/seeders' => database_path('seeders'),
+        ], 'pages-seeders');
 
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
 

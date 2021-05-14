@@ -9,21 +9,32 @@ use EscolaLms\Pages\Http\Requests\PageInsertRequest;
 use EscolaLms\Pages\Http\Requests\PageListingRequest;
 use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
 use EscolaLms\Pages\Http\Requests\PageViewRequest;
+use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use Illuminate\Http\JsonResponse;
 
 class PagesApiController extends EscolaLmsBaseController implements PagesApiContract
 {
+    private PageServiceContract $pageService;
+
+    public function __construct(PageServiceContract $pageService)
+    {
+        $this->pageService = $pageService;
+    }
+
     public function list(PageListingRequest $request): JsonResponse
     {
+        $pages = $this->pageService->listAll();
+        return response()->json($pages);
+    }
+
+    public function read(PageViewRequest $request): JsonResponse
+    {
+//        $page = $this->pageService->getBySlug($request->getSlug());
+//        return response()->json($page);
         return $this->sendError('Not implemented', 404);
     }
 
     public function insert(PageInsertRequest $request): JsonResponse
-    {
-        return $this->sendError('Not implemented', 404);
-    }
-
-    public function update(PageUpdateRequest $request): JsonResponse
     {
         return $this->sendError('Not implemented', 404);
     }
@@ -33,7 +44,7 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         return $this->sendError('Not implemented', 404);
     }
 
-    public function view(PageViewRequest $request): JsonResponse
+    public function update(PageUpdateRequest $request): JsonResponse
     {
         return $this->sendError('Not implemented', 404);
     }
