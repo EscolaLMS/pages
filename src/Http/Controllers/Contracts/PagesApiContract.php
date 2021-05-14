@@ -102,7 +102,7 @@ interface PagesApiContract
      * @param PageInsertRequest $request
      * @return JsonResponse
      */
-    public function insert(PageInsertRequest $request): JsonResponse;
+    public function create(PageInsertRequest $request): JsonResponse;
 
     /**
      * @OA\Patch(

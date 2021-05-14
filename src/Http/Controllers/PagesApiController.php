@@ -41,7 +41,7 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         }
     }
 
-    public function insert(PageInsertRequest $request): JsonResponse
+    public function create(PageInsertRequest $request): JsonResponse
     {
         $slug = $request->getParamSlug();
         $title = $request->getParamTitle();
