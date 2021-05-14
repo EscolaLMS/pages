@@ -29,9 +29,16 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
 
     public function read(PageViewRequest $request): JsonResponse
     {
-//        $page = $this->pageService->getBySlug($request->getSlug());
-//        return response()->json($page);
-        return $this->sendError('Not implemented', 404);
+        $slug = $request->getSlug();
+        $page = $this->pageService->getBySlug($slug);
+        if ($page->exists) {
+            return response()->json($page);
+        } else {
+            return response()->json(
+                sprintf("Page identified by '%s' doesn't exists",$slug),
+                404
+            );
+        }
     }
 
     public function insert(PageInsertRequest $request): JsonResponse

@@ -6,6 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PageViewRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge(['slug' => $this->route('slug')]);
+    }
+
     /**
      * @return bool
      */
@@ -28,6 +33,6 @@ class PageViewRequest extends FormRequest
 
     public function getSlug()
     {
-        return $this->get('slug');
+        return $this->route('slug');
     }
 }

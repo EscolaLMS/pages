@@ -31,6 +31,6 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
      * @return Page
      */
     public function getBySlug(string $slug) {
-        return $this->model->newQuery()->where('slug', $slug)->first();
+        return $this->model->newQuery()->where('slug', $slug)->firstOrNew();
     }
 }

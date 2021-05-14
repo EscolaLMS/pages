@@ -26,6 +26,12 @@ use Illuminate\Database\Eloquent\Model;
  *          description="page content"
  *     ),
  * )
+ *
+ * @property integer $id
+ * @property string $slug
+ * @property string $title
+ * @property integer $author_id
+ * @property string $content
  */
 class Page extends Model
 {
