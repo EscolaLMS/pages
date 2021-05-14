@@ -9,6 +9,10 @@ class PagesModelPageTest extends TestCase
 {
     public function testCanList()
     {
-        $this->assertGreaterThan(0, Page::all()->count());
+        Page::factory()
+            ->count(10)
+            ->create()
+        ;
+        self::assertCount(10, Page::all());
     }
 }
