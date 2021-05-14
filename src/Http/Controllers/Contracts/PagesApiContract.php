@@ -193,9 +193,6 @@ interface PagesApiContract
      *     path="/api/pages/{slug}",
      *     summary="Read a page identified by a given slug identifier",
      *     tags={"Pages"},
-     *     security={
-     *         {"passport": {}},
-     *     },
      *     @OA\Parameter(
      *         description="Unique human-readable page identifier",
      *         in="path",
