@@ -43,6 +43,11 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
 
     public function insert(PageInsertRequest $request): JsonResponse
     {
+        $slug = $request->getParamSlug();
+        $title = $request->getParamTitle();
+        $content = $request->getParamContent();
+
+        $this->pageService->insert($slug,$title,$content);
         return $this->sendError('Not implemented', 404);
     }
 

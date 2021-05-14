@@ -2,10 +2,16 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use EscolaLms\Core\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PageInsertRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge(['slug' => $this->route('slug')]);
+    }
+
     /**
      * @return bool
      */
@@ -24,6 +30,33 @@ class PageInsertRequest extends FormRequest
     public function rules()
     {
         return [
+            'slug' => 'string|required',
+            'title' => 'string|required',
+            'content' => 'string',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getParamSlug()
+    {
+        return $this->route('slug');
+    }
+
+    /**
+     * @return string
+     */
+    public function getParamTitle()
+    {
+        return $this->get('title');
+    }
+
+    /**
+     * @return string
+     */
+    public function getParamContent()
+    {
+        return $this->get('content', '');
     }
 }

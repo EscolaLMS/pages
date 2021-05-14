@@ -29,4 +29,8 @@ class PageService implements PageServiceContract
     {
         return $this->repository->getBySlug($slug);
     }
+
+    public function insert(string $slug, string $title, string $content)
+    {
+    }
 }
