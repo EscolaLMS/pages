@@ -49,8 +49,8 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         $content = $request->getParamContent();
 
         $user = Auth::user();
-        $this->pageService->insert($slug,$title,$content,$user->id);
-        return $this->sendError('Not implemented', 404);
+        $page = $this->pageService->insert($slug,$title,$content,$user->id);
+        return response()->json($page);
     }
 
     public function delete(PageDeleteRequest $request): JsonResponse

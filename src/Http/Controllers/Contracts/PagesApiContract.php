@@ -94,6 +94,10 @@ interface PagesApiContract
      *          description="there already is a page identified by chosen slug identifier",
      *      ),
      *     @OA\Response(
+     *          response=422,
+     *          description="one of the parameters has invalid format",
+     *      ),
+     *     @OA\Response(
      *          response=500,
      *          description="server-side error",
      *      ),
@@ -141,6 +145,10 @@ interface PagesApiContract
      *     @OA\Response(
      *          response=400,
      *          description="cannot find a page with provided slug identifier",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="one of the parameters has invalid format",
      *      ),
      *     @OA\Response(
      *          response=500,

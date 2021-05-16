@@ -6,14 +6,12 @@ use EscolaLms\Core\EscolaLmsServiceProvider;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Pages\Database\Seeders\DatabaseSeeder;
 use EscolaLms\Pages\EscolaLmsPagesServiceProvider;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\PassportServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 
 class TestCase extends \EscolaLms\Core\Tests\TestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -25,7 +23,6 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
         return [
             ...parent::getPackageProviders($app),
             EscolaLmsPagesServiceProvider::class,
-            EscolaLmsServiceProvider::class,
             PassportServiceProvider::class,
             PermissionServiceProvider::class,
         ];
@@ -34,12 +31,13 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);
-        $app['config']->set('passport.client_uuids', false);
     }
 
     protected function authenticateAsAdmin()
     {
-        $user = User::factory()->create()->assignRole('admin');
-        Auth::setUser($user);
+        /** @var User $user */
+        $user = User::factory()->create();
+        $user = $user->assignRole('admin');
+        Auth::guard()->setUser($user);
     }
 }

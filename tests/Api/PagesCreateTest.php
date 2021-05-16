@@ -35,7 +35,7 @@ class PagesCreateTest extends TestCase
             $this->uri($page->slug),
             collect($page->getAttributes())->except('id','slug','title')->toArray()
         );
-        $response->assertStatus(302);
+        $response->assertStatus(422);
         //TODO: make sure the page doesn't exists
     }
 
@@ -48,7 +48,7 @@ class PagesCreateTest extends TestCase
             $this->uri($page->slug),
             collect($page->getAttributes())->except('id','slug','content')->toArray()
         );
-        $response->assertStatus(302);
+        $response->assertStatus(422);
         //TODO: make sure the page doesn't exists
     }
 
@@ -59,7 +59,7 @@ class PagesCreateTest extends TestCase
         $page = Page::factory()->createOne();
         $duplicate = Page::factory()->makeOne($page->getAttributes());
         $response = $this->postJson($this->uri($duplicate->slug));
-        $response->assertStatus(409);
+        $response->assertStatus(422);
     }
 
     public function testGuestCannotCreatePage()

@@ -19,7 +19,7 @@ class PageCreateRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user!=null && $user->can('insert:pages', 'api');
+        return $user!=null && $user->can('create:pages', 'api');
     }
 
     /**
@@ -32,7 +32,7 @@ class PageCreateRequest extends FormRequest
         return [
             'slug' => 'string|required',
             'title' => 'string|required',
-            'content' => 'string',
+            'content' => 'string|required',
         ];
     }
 
