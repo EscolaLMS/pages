@@ -6,10 +6,10 @@ use EscolaLms\Core\EscolaLmsServiceProvider;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Pages\Database\Seeders\DatabaseSeeder;
 use EscolaLms\Pages\EscolaLmsPagesServiceProvider;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\PassportServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TestCase extends \EscolaLms\Core\Tests\TestCase
 {
