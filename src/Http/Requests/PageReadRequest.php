@@ -31,7 +31,7 @@ class PageReadRequest extends FormRequest
         ];
     }
 
-    public function getSlug()
+    public function getParamSlug()
     {
         return $this->route('slug');
     }

@@ -6,6 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PageDeleteRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge(['slug' => $this->route('slug')]);
+    }
+
     /**
      * @return bool
      */
@@ -24,6 +29,15 @@ class PageDeleteRequest extends FormRequest
     public function rules()
     {
         return [
+            'slug' => 'string|required',
         ];
+    }
+
+    /**
+     * @returns string
+     */
+    public function getParamSlug()
+    {
+        return $this->route('slug');
     }
 }

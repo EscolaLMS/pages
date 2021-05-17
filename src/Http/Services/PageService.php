@@ -3,7 +3,8 @@
 namespace EscolaLms\Pages\Http\Services;
 
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
-use EscolaLms\Pages\Http\Exception\PageAlreadyExistsException;
+use EscolaLms\Pages\Http\Exceptions\PageAlreadyExistsException;
+use EscolaLms\Pages\Http\Exceptions\PageDoesNotExistsException;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\Contracts\PageRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
@@ -53,5 +54,15 @@ class PageService implements PageServiceContract
             throw new PageAlreadyExistsException($page);
         }
         return $page;
+    }
+
+    /**
+     * @throws EscolaLms\Pages\Http\Exception\PageDoesNotExistsException
+     */
+    public function delete(string $slug) {
+        $deleted = $this->repository->deletePage($slug);
+        if (!$deleted) {
+            throw new PageDoesNotExistsException($slug);
+        }
     }
 }
