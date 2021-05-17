@@ -8,7 +8,7 @@ use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
 use EscolaLms\Pages\Http\Requests\PageCreateRequest;
 use EscolaLms\Pages\Http\Requests\PageListingRequest;
 use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
-use EscolaLms\Pages\Http\Requests\PageViewRequest;
+use EscolaLms\Pages\Http\Requests\PageReadRequest;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +28,28 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         return response()->json($pages);
     }
 
-    public function read(PageViewRequest $request): JsonResponse
+    public function create(PageCreateRequest $request): JsonResponse
+    {
+        $slug = $request->getParamSlug();
+        $title = $request->getParamTitle();
+        $content = $request->getParamContent();
+
+        $user = Auth::user();
+        $page = $this->pageService->insert($slug,$title,$content,$user->id);
+        return response()->json($page);
+    }
+
+    public function update(PageUpdateRequest $request): JsonResponse
+    {
+        return $this->sendError('Not implemented', 404);
+    }
+
+    public function delete(PageDeleteRequest $request): JsonResponse
+    {
+        return $this->sendError('Not implemented', 404);
+    }
+
+    public function read(PageReadRequest $request): JsonResponse
     {
         $slug = $request->getSlug();
         $page = $this->pageService->getBySlug($slug);
@@ -41,26 +62,4 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
             );
         }
     }
-
-    public function create(PageCreateRequest $request): JsonResponse
-    {
-        $slug = $request->getParamSlug();
-        $title = $request->getParamTitle();
-        $content = $request->getParamContent();
-
-        $user = Auth::user();
-        $page = $this->pageService->insert($slug,$title,$content,$user->id);
-        return response()->json($page);
-    }
-
-    public function delete(PageDeleteRequest $request): JsonResponse
-    {
-        return $this->sendError('Not implemented', 404);
-    }
-
-    public function update(PageUpdateRequest $request): JsonResponse
-    {
-        return $this->sendError('Not implemented', 404);
-    }
-
 }

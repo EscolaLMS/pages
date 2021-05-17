@@ -6,7 +6,7 @@ use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
 use EscolaLms\Pages\Http\Requests\PageCreateRequest;
 use EscolaLms\Pages\Http\Requests\PageListingRequest;
 use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
-use EscolaLms\Pages\Http\Requests\PageViewRequest;
+use EscolaLms\Pages\Http\Requests\PageReadRequest;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -235,5 +235,5 @@ interface PagesApiContract
      * @param PageListingRequest $request
      * @return JsonResponse
      */
-    public function read(PageViewRequest $request): JsonResponse;
+    public function read(PageReadRequest $request): JsonResponse;
 }

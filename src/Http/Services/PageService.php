@@ -2,8 +2,8 @@
 
 namespace EscolaLms\Pages\Http\Services;
 
-use EscolaLms\Pages\Http\Exception\PageAlreadyExistsException;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
+use EscolaLms\Pages\Http\Exception\PageAlreadyExistsException;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\Contracts\PageRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
