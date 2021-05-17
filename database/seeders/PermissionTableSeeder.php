@@ -6,19 +6,25 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+/**
+ * @todo remove neccesity of using 'web' guard
+ */
 class PermissionTableSeeder extends Seeder
 {
     public function run()
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $admin = Role::findOrCreate('admin', 'api');
-        $permissions = ['delete:pages', 'insert:pages', 'list:pages', 'update:pages'];
+        $apiAdmin = Role::findOrCreate('admin', 'api');
+        $webAdmin = Role::findOrCreate('admin', 'web');
+        $permissions = ['delete:pages', 'create:pages', 'list:pages', 'update:pages'];
 
         foreach ($permissions as $permission) {
             Permission::findOrCreate($permission, 'api');
+            Permission::findOrCreate($permission, 'web');
         }
 
-        $admin->givePermissionTo($permissions);
+        $apiAdmin->givePermissionTo($permissions);
+        $webAdmin->givePermissionTo($permissions);
     }
 }

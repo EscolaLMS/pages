@@ -25,12 +25,20 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
         return parent::all($search, $skip, $limit, $columns, $orderDirection, $orderColumn);
     }
 
-
     /**
      * @param string $slug
      * @return Page
      */
     public function getBySlug(string $slug) {
         return $this->model->newQuery()->where('slug', $slug)->firstOrNew();
+    }
+
+    /**
+     * @param Page $page
+     * @return Page
+     */
+    public function insert(Page $page)
+    {
+        return $this->createUsingModel($page);
     }
 }
