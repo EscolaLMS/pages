@@ -22,8 +22,5 @@ interface PageServiceContract
      */
     public function insert(string $slug, string $title, string $content, int $userId): Page;
 
-    /**
-     * @throws EscolaLms\Pages\Http\Exception\PageDoesNotExistsException
-     */
-    public function delete(string $slug);
+    public function delete(string $slug): bool;
 }
