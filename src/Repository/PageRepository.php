@@ -49,4 +49,8 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
     public function deletePage(string $slug): bool {
         return $this->model->newQuery()->where('slug', $slug)->delete();
     }
+
+    public function save(Page $page): bool {
+        return $page->save();
+    }
 }
