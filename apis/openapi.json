@@ -140,6 +140,17 @@
                 ],
                 "summary": "Delete a page identified by a slug",
                 "operationId": "EscolaLms\\Pages\\Http\\Controllers\\Contracts\\PagesApiContract::delete",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Unique human-readable page identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "page deleted successfully"
