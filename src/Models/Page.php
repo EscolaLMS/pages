@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @OA\Schema(
  *     schema="Page",
- *     required={"title","author_id"},
+ *     required={"title","author_id","content"},
  *     @OA\Property(
  *          property="title",
  *          type="string",
@@ -26,6 +26,12 @@ use Illuminate\Database\Eloquent\Model;
  *          description="page content"
  *     ),
  * )
+ *
+ * @property integer $id
+ * @property string $slug
+ * @property string $title
+ * @property integer $author_id
+ * @property string $content
  */
 class Page extends Model
 {
@@ -45,6 +51,13 @@ class Page extends Model
         'title' => 'string',
         'author_id' => 'integer',
         'content' => 'string',
+    ];
+
+    public $fillable = [
+        'slug',
+        'title',
+        'author_id',
+        'content'
     ];
 
     /**

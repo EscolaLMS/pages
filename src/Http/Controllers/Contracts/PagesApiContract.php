@@ -3,10 +3,10 @@
 namespace EscolaLms\Pages\Http\Controllers\Contracts;
 
 use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
-use EscolaLms\Pages\Http\Requests\PageInsertRequest;
+use EscolaLms\Pages\Http\Requests\PageCreateRequest;
 use EscolaLms\Pages\Http\Requests\PageListingRequest;
 use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
-use EscolaLms\Pages\Http\Requests\PageViewRequest;
+use EscolaLms\Pages\Http\Requests\PageReadRequest;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -94,15 +94,19 @@ interface PagesApiContract
      *          description="there already is a page identified by chosen slug identifier",
      *      ),
      *     @OA\Response(
+     *          response=422,
+     *          description="one of the parameters has invalid format",
+     *      ),
+     *     @OA\Response(
      *          response=500,
      *          description="server-side error",
      *      ),
      * )
      *
-     * @param PageInsertRequest $request
+     * @param PageCreateRequest $request
      * @return JsonResponse
      */
-    public function insert(PageInsertRequest $request): JsonResponse;
+    public function create(PageCreateRequest $request): JsonResponse;
 
     /**
      * @OA\Patch(
@@ -141,6 +145,10 @@ interface PagesApiContract
      *     @OA\Response(
      *          response=400,
      *          description="cannot find a page with provided slug identifier",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="one of the parameters has invalid format",
      *      ),
      *     @OA\Response(
      *          response=500,
@@ -202,6 +210,9 @@ interface PagesApiContract
      *     path="/api/pages/{slug}",
      *     summary="Read a page identified by a given slug identifier",
      *     tags={"Pages"},
+     *     security={
+     *         {"passport": {}},
+     *     },
      *     @OA\Parameter(
      *         description="Unique human-readable page identifier",
      *         in="path",
@@ -233,5 +244,5 @@ interface PagesApiContract
      * @param PageListingRequest $request
      * @return JsonResponse
      */
-    public function read(PageViewRequest $request): JsonResponse;
+    public function read(PageReadRequest $request): JsonResponse;
 }

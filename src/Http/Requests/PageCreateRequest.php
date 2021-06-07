@@ -2,9 +2,10 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use EscolaLms\Core\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PageUpdateRequest extends FormRequest
+class PageCreateRequest extends FormRequest
 {
     protected function prepareForValidation()
     {
@@ -18,7 +19,7 @@ class PageUpdateRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user!=null && $user->can('update:pages', 'api');
+        return $user!=null && $user->can('create:pages', 'api');
     }
 
     /**
@@ -36,7 +37,7 @@ class PageUpdateRequest extends FormRequest
     }
 
     /**
-     * @returns string
+     * @return string
      */
     public function getParamSlug()
     {
@@ -44,7 +45,7 @@ class PageUpdateRequest extends FormRequest
     }
 
     /**
-     * @returns string
+     * @return string
      */
     public function getParamTitle()
     {
@@ -52,10 +53,10 @@ class PageUpdateRequest extends FormRequest
     }
 
     /**
-     * @returns string
+     * @return string
      */
     public function getParamContent()
     {
-        return $this->get('content');
+        return $this->get('content', '');
     }
 }

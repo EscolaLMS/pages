@@ -5,12 +5,13 @@ namespace EscolaLms\Pages\Http\Controllers;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Pages\Http\Controllers\Contracts\PagesApiContract;
 use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
-use EscolaLms\Pages\Http\Requests\PageInsertRequest;
+use EscolaLms\Pages\Http\Requests\PageCreateRequest;
 use EscolaLms\Pages\Http\Requests\PageListingRequest;
 use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
-use EscolaLms\Pages\Http\Requests\PageViewRequest;
+use EscolaLms\Pages\Http\Requests\PageReadRequest;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class PagesApiController extends EscolaLmsBaseController implements PagesApiContract
 {
@@ -27,26 +28,54 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         return response()->json($pages);
     }
 
-    public function read(PageViewRequest $request): JsonResponse
+    public function create(PageCreateRequest $request): JsonResponse
     {
-//        $page = $this->pageService->getBySlug($request->getSlug());
-//        return response()->json($page);
-        return $this->sendError('Not implemented', 404);
-    }
+        $slug = $request->getParamSlug();
+        $title = $request->getParamTitle();
+        $content = $request->getParamContent();
 
-    public function insert(PageInsertRequest $request): JsonResponse
-    {
-        return $this->sendError('Not implemented', 404);
-    }
-
-    public function delete(PageDeleteRequest $request): JsonResponse
-    {
-        return $this->sendError('Not implemented', 404);
+        $user = Auth::user();
+        $page = $this->pageService->insert($slug,$title,$content,$user->id);
+        return response()->json($page);
     }
 
     public function update(PageUpdateRequest $request): JsonResponse
     {
-        return $this->sendError('Not implemented', 404);
+        $slug = $request->getParamSlug();
+        $title = $request->getParamTitle();
+        $content = $request->getParamContent();
+
+        $updated = $this->pageService->update($slug, $title, $content);
+        if (!$updated) {
+            return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
+        } else {
+            return response()->json('ok',200);
+        }
     }
 
+    public function delete(PageDeleteRequest $request): JsonResponse
+    {
+        $slug = $request->getParamSlug();
+
+        $deleted = $this->pageService->delete($slug);
+        if (!$deleted) {
+            return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
+        } else {
+            return response()->json('ok',200);
+        }
+    }
+
+    public function read(PageReadRequest $request): JsonResponse
+    {
+        $slug = $request->getParamSlug();
+        $page = $this->pageService->getBySlug($slug);
+        if ($page->exists) {
+            return response()->json($page);
+        } else {
+            return response()->json(
+                sprintf("Page identified by '%s' doesn't exists",$slug),
+                404
+            );
+        }
+    }
 }

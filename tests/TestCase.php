@@ -26,7 +26,6 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
         return [
             ...parent::getPackageProviders($app),
             EscolaLmsPagesServiceProvider::class,
-            EscolaLmsServiceProvider::class,
             PassportServiceProvider::class,
             PermissionServiceProvider::class,
         ];
@@ -35,12 +34,13 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     protected function getEnvironmentSetUp($app)
     {
         parent::getEnvironmentSetUp($app);
-        $app['config']->set('passport.client_uuids', false);
     }
 
     protected function authenticateAsAdmin()
     {
-        $user = User::factory()->create()->assignRole('admin');
-        Auth::setUser($user);
+        /** @var User $user */
+        $user = User::factory()->create();
+        $user = $user->assignRole('admin');
+        Auth::guard()->setUser($user);
     }
 }
