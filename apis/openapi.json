@@ -81,14 +81,19 @@
                     "500": {
                         "description": "server-side error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
                     "Pages"
                 ],
                 "summary": "Create a new page identified by slug",
-                "operationId": "EscolaLms\\Pages\\Http\\Controllers\\Contracts\\PagesApiContract::insert",
+                "operationId": "EscolaLms\\Pages\\Http\\Controllers\\Contracts\\PagesApiContract::create",
                 "parameters": [
                     {
                         "name": "slug",
@@ -123,6 +128,9 @@
                     },
                     "409": {
                         "description": "there already is a page identified by chosen slug identifier"
+                    },
+                    "422": {
+                        "description": "one of the parameters has invalid format"
                     },
                     "500": {
                         "description": "server-side error"
@@ -215,6 +223,9 @@
                     "400": {
                         "description": "cannot find a page with provided slug identifier"
                     },
+                    "422": {
+                        "description": "one of the parameters has invalid format"
+                    },
                     "500": {
                         "description": "server-side error"
                     }
@@ -232,7 +243,8 @@
             "Page": {
                 "required": [
                     "title",
-                    "author_id"
+                    "author_id",
+                    "content"
                 ],
                 "properties": {
                     "title": {
