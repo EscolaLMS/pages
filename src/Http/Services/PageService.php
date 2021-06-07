@@ -3,7 +3,7 @@
 namespace EscolaLms\Pages\Http\Services;
 
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
-use EscolaLms\Pages\Http\Exception\PageAlreadyExistsException;
+use EscolaLms\Pages\Http\Exceptions\PageAlreadyExistsException;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\Contracts\PageRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
@@ -41,17 +41,18 @@ class PageService implements PageServiceContract
      */
     public function insert(string $slug, string $title, string $content, int $userId): Page
     {
-        /** @var Page $page */
-        $page = Page::factory()->newModel([
+        $page = $this->repository->getBySlug($slug);
+        if ($page->exists()) {
+            throw new PageAlreadyExistsException($page);
+        }
+
+        $page->fill([
             'slug'=>$slug,
             'title'=>$title,
             'author_id'=>$userId,
             'content'=>$content,
         ]);
         $this->repository->insert($page);
-        if (!$page->exists()) {
-            throw new PageAlreadyExistsException($page);
-        }
         return $page;
     }
 }

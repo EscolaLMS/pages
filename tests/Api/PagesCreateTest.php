@@ -58,8 +58,11 @@ class PagesCreateTest extends TestCase
 
         $page = Page::factory()->createOne();
         $duplicate = Page::factory()->makeOne($page->getAttributes());
-        $response = $this->postJson($this->uri($duplicate->slug));
-        $response->assertStatus(422);
+        $response = $this->postJson(
+            $this->uri($duplicate->slug),
+            collect($duplicate->getAttributes())->except('id','slug')->toArray()
+        );
+        $response->assertStatus(409);
     }
 
     public function testGuestCannotCreatePage()
