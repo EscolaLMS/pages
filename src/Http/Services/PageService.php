@@ -55,7 +55,7 @@ class PageService implements PageServiceContract
         return $page;
     }
 
-    public function delete(string $slug): bool {
+    public function deleteBySlug(string $slug): bool {
         return $this->repository->deletePage($slug);
     }
 

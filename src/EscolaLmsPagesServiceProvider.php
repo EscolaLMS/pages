@@ -28,10 +28,6 @@ class EscolaLmsPagesServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->bind(
-            ExceptionHandler::class, Handler::class
-        );
-
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'pages-migrations');

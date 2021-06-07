@@ -18,7 +18,7 @@ class PageDeleteRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user!=null && $user->can('delete:pages', 'api');
+        return $user!==null && $user->can('delete:pages', 'api');
     }
 
     /**

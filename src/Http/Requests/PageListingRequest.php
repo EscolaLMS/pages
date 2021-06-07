@@ -14,7 +14,7 @@ class PageListingRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user!=null && $user->can('list:pages', 'api');
+        return $user!==null && $user->can('list:pages', 'api');
     }
 
     /**
