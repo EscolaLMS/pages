@@ -55,4 +55,18 @@ class PageService implements PageServiceContract
         $this->repository->insert($page);
         return $page;
     }
+
+    public function delete(string $slug): bool {
+        return $this->repository->deletePage($slug);
+    }
+
+    public function update(string $slug, string $title, string $content): bool {
+        $page = $this->repository->getBySlug($slug);
+        if (!$page->exists) {
+            return false;
+        }
+        $page->title = $title;
+        $page->content = $content;
+        return $this->repository->save($page);
+    }
 }

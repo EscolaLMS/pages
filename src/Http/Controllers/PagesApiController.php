@@ -41,17 +41,33 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
 
     public function update(PageUpdateRequest $request): JsonResponse
     {
-        return $this->sendError('Not implemented', 404);
+        $slug = $request->getParamSlug();
+        $title = $request->getParamTitle();
+        $content = $request->getParamContent();
+
+        $updated = $this->pageService->update($slug, $title, $content);
+        if (!$updated) {
+            return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
+        } else {
+            return response()->json('ok',200);
+        }
     }
 
     public function delete(PageDeleteRequest $request): JsonResponse
     {
-        return $this->sendError('Not implemented', 404);
+        $slug = $request->getParamSlug();
+
+        $deleted = $this->pageService->delete($slug);
+        if (!$deleted) {
+            return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
+        } else {
+            return response()->json('ok',200);
+        }
     }
 
     public function read(PageReadRequest $request): JsonResponse
     {
-        $slug = $request->getSlug();
+        $slug = $request->getParamSlug();
         $page = $this->pageService->getBySlug($slug);
         if ($page->exists) {
             return response()->json($page);

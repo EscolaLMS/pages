@@ -169,6 +169,15 @@ interface PagesApiContract
      *     security={
      *         {"passport": {}},
      *     },
+     *     @OA\Parameter(
+     *         description="Unique human-readable page identifier",
+     *         in="path",
+     *         name="slug",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
      *     @OA\Response(
      *          response=200,
      *          description="page deleted successfully",

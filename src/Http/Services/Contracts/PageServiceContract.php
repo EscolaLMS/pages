@@ -21,4 +21,8 @@ interface PageServiceContract
      * @throws EscolaLms\Pages\Http\Exception\PageAlreadyExistsException
      */
     public function insert(string $slug, string $title, string $content, int $userId): Page;
+
+    public function delete(string $slug): bool;
+
+    public function update(string $slug, string $title, string $content): bool;
 }

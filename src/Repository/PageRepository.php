@@ -29,7 +29,7 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
      * @param string $slug
      * @return Page
      */
-    public function getBySlug(string $slug) {
+    public function getBySlug(string $slug): Page {
         return $this->model->newQuery()->where('slug', $slug)->firstOrNew();
     }
 
@@ -37,8 +37,20 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
      * @param Page $page
      * @return Page
      */
-    public function insert(Page $page)
+    public function insert(Page $page): Page
     {
         return $this->createUsingModel($page);
+    }
+
+    /**
+     * @param string $slug
+     * @return bool
+     */
+    public function deletePage(string $slug): bool {
+        return $this->model->newQuery()->where('slug', $slug)->delete();
+    }
+
+    public function save(Page $page): bool {
+        return $page->save();
     }
 }
