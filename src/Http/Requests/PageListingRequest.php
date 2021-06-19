@@ -13,8 +13,7 @@ class PageListingRequest extends FormRequest
     public function authorize()
     {
         /** @var User $user */
-        $user = $this->user();
-        return $user!=null && $user->can('list:pages', 'api');
+        return true;
     }
 
     /**

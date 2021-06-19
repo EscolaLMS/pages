@@ -18,7 +18,7 @@ class PagesDeleteTest extends TestCase
         $this->authenticateAsAdmin();
 
         $page = Page::factory()->createOne();
-        $response = $this->delete($this->uri($page->slug));
+        $response = $this->actingAs($this->user, 'api')->delete($this->uri($page->slug));
         $response->assertOk();
         $this->assertEquals(0,Page::factory()->make()->newQuery()->where('slug',$page->slug)->count());
     }
@@ -28,14 +28,14 @@ class PagesDeleteTest extends TestCase
         $this->authenticateAsAdmin();
 
         $page = Page::factory()->makeOne();
-        $response = $this->delete($this->uri($page->slug));
+        $response = $this->actingAs($this->user, 'api')->delete($this->uri($page->slug));
         $response->assertStatus(400);
     }
 
     public function testGuestCannotDeleteExistingPage()
     {
         $page = Page::factory()->createOne();
-        $response = $this->delete($this->uri($page->slug));
-        $response->assertForbidden();
+        $response = $this->json('delete', $this->uri($page->slug));
+        $response->assertUnauthorized();
     }
 }

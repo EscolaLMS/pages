@@ -16,12 +16,12 @@ class PagesCreateTest extends TestCase
     public function testAdminCanCreatePage()
     {
         $this->authenticateAsAdmin();
-
         $page = Page::factory()->makeOne();
-        $response = $this->postJson(
+        $response = $this->actingAs($this->user, 'api')->postJson(
             $this->uri($page->slug),
             collect($page->getAttributes())->except('id','slug')->toArray()
         );
+
         $response->assertOk();
         //TODO: make sure the page exists
     }
@@ -31,7 +31,7 @@ class PagesCreateTest extends TestCase
         $this->authenticateAsAdmin();
 
         $page = Page::factory()->makeOne();
-        $response = $this->postJson(
+        $response = $this->actingAs($this->user, 'api')->postJson(
             $this->uri($page->slug),
             collect($page->getAttributes())->except('id','slug','title')->toArray()
         );
@@ -44,7 +44,7 @@ class PagesCreateTest extends TestCase
         $this->authenticateAsAdmin();
 
         $page = Page::factory()->makeOne();
-        $response = $this->postJson(
+        $response = $this->actingAs($this->user, 'api')->postJson(
             $this->uri($page->slug),
             collect($page->getAttributes())->except('id','slug','content')->toArray()
         );
@@ -58,7 +58,7 @@ class PagesCreateTest extends TestCase
 
         $page = Page::factory()->createOne();
         $duplicate = Page::factory()->makeOne($page->getAttributes());
-        $response = $this->postJson($this->uri($duplicate->slug));
+        $response = $this->actingAs($this->user, 'api')->postJson($this->uri($duplicate->slug));
         $response->assertStatus(422);
     }
 
@@ -69,6 +69,6 @@ class PagesCreateTest extends TestCase
             $this->uri($page->slug),
             collect($page->getAttributes())->except('id','slug')->toArray()
         );
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 }

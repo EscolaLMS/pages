@@ -4,6 +4,7 @@ namespace EscolaLms\Pages\Tests;
 
 use EscolaLms\Core\EscolaLmsServiceProvider;
 use EscolaLms\Core\Models\User;
+use EscolaLms\Pages\AuthServiceProvider;
 use EscolaLms\Pages\Database\Seeders\DatabaseSeeder;
 use EscolaLms\Pages\EscolaLmsPagesServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,6 +15,8 @@ use Spatie\Permission\PermissionServiceProvider;
 class TestCase extends \EscolaLms\Core\Tests\TestCase
 {
     use DatabaseTransactions;
+
+    public $user;
 
     protected function setUp(): void
     {
@@ -28,6 +31,7 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
             EscolaLmsPagesServiceProvider::class,
             PassportServiceProvider::class,
             PermissionServiceProvider::class,
+            AuthServiceProvider::class
         ];
     }
 
@@ -38,9 +42,17 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
 
     protected function authenticateAsAdmin()
     {
+        $this->user = config('auth.providers.users.model')::factory()->create();
+        $this->user->guard_name = 'api';
+        $this->user->givePermissionTo('create pages');
+        $this->user->givePermissionTo('update pages');
+        $this->user->givePermissionTo('delete pages');
+
         /** @var User $user */
-        $user = User::factory()->create();
-        $user = $user->assignRole('admin');
-        Auth::guard()->setUser($user);
+//        $this->user = User::factory()->create();
+//        $this->user = $this->user->assignRole('admin');
+//        $this->user->guard_name = 'api';
+//        Auth::guard()->setUser($this->user);
+//        $user = config('auth.providers.users.model')::factory()->create();
     }
 }
