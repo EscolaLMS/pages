@@ -20,7 +20,7 @@ class PagesUpdateTest extends TestCase
         $page = Page::factory()->createOne();
         $pageNew = Page::factory()->makeOne();
 
-        $response = $this->patchJson(
+        $response = $this->actingAs($this->user, 'api')->patchJson(
             $this->uri($page->slug),
             [
                 'title' => $pageNew->title,
@@ -43,7 +43,7 @@ class PagesUpdateTest extends TestCase
         $oldTitle = $page->title;
         $oldContent = $page->content;
 
-        $response = $this->patchJson(
+        $response = $this->actingAs($this->user, 'api')->patchJson(
             $this->uri($page->slug),
             [
                 'content' => $pageNew->content,
@@ -65,7 +65,7 @@ class PagesUpdateTest extends TestCase
         $oldTitle = $page->title;
         $oldContent = $page->content;
 
-        $response = $this->patchJson(
+        $response = $this->actingAs($this->user, 'api')->patchJson(
             $this->uri($page->slug),
             [
                 'title' => $pageNew->title,
@@ -84,7 +84,7 @@ class PagesUpdateTest extends TestCase
 
         $page = Page::factory()->makeOne();
 
-        $response = $this->patchJson(
+        $response = $this->actingAs($this->user, 'api')->patchJson(
             $this->uri($page->slug),
             [
                 'title' => $page->title,
@@ -110,7 +110,7 @@ class PagesUpdateTest extends TestCase
                 'content' => $pageNew->content,
             ]
         );
-        $response->assertForbidden();
+        $response->assertUnauthorized();
         $page->refresh();
 
         $this->assertEquals($oldTitle, $page->title);

@@ -17,7 +17,7 @@ class PermissionTableSeeder extends Seeder
 
         $apiAdmin = Role::findOrCreate('admin', 'api');
         $webAdmin = Role::findOrCreate('admin', 'web');
-        $permissions = ['delete:pages', 'create:pages', 'list:pages', 'update:pages'];
+        $permissions = ['delete pages', 'create pages', 'update pages'];
 
         foreach ($permissions as $permission) {
             Permission::findOrCreate($permission, 'api');

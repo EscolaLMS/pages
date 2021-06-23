@@ -58,9 +58,8 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
             $updated = $this->pageService->update($slug, $title, $content);
             if (!$updated) {
                 return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
-            } else {
-                return response()->json('ok',200);
-            }
+            } 
+            return response()->json('ok',200);
         } catch (Renderable $e) {
             return $e->render();
         }
@@ -74,9 +73,8 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
             $deleted = $this->pageService->deleteBySlug($slug);
             if (!$deleted) {
                 return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
-            } else {
-                return response()->json('ok',200);
             }
+            return response()->json('ok',200);
         } catch (Renderable $e) {
             return $e->render();
         }
@@ -89,12 +87,11 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
             $page = $this->pageService->getBySlug($slug);
             if ($page->exists) {
                 return response()->json($page);
-            } else {
-                return response()->json(
-                    sprintf("Page identified by '%s' doesn't exists",$slug),
-                    404
-                );
             }
+            return response()->json(
+                sprintf("Page identified by '%s' doesn't exists",$slug),
+                404
+            );
         } catch (Renderable $e) {
             return $e->render();
         }

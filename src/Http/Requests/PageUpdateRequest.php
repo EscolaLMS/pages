@@ -18,7 +18,7 @@ class PageUpdateRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user!==null && $user->can('update:pages', 'api');
+        return $user->can('update pages', 'api');
     }
 
     /**

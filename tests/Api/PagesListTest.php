@@ -35,10 +35,4 @@ class PagesListTest extends TestCase
                 ->all()
         );
     }
-
-    public function testGuestCannotList()
-    {
-        $response = $this->getJson($this->uri);
-        $response->assertForbidden();
-    }
 }
