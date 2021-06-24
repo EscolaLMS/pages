@@ -22,7 +22,7 @@ interface PageServiceContract
      */
     public function insert(string $slug, string $title, string $content, int $userId): Page;
 
-    public function delete(string $slug): bool;
+    public function deleteBySlug(string $slug): bool;
 
     public function update(string $slug, string $title, string $content): bool;
 }
