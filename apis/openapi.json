@@ -49,7 +49,7 @@
                     "Pages"
                 ],
                 "summary": "Read a page identified by a given slug identifier",
-                "operationId": "EscolaLms\\Pages\\Http\\Controllers\\Contracts\\PagesApiContract::read",
+                "operationId": "061c46f274744c45aa5784f21b4417bd",
                 "parameters": [
                     {
                         "name": "slug",
@@ -93,7 +93,7 @@
                     "Pages"
                 ],
                 "summary": "Create a new page identified by slug",
-                "operationId": "EscolaLms\\Pages\\Http\\Controllers\\Contracts\\PagesApiContract::create",
+                "operationId": "e68146b5a76f4ac8903d245e69129a7c",
                 "parameters": [
                     {
                         "name": "slug",
@@ -147,7 +147,7 @@
                     "Pages"
                 ],
                 "summary": "Delete a page identified by a slug",
-                "operationId": "EscolaLms\\Pages\\Http\\Controllers\\Contracts\\PagesApiContract::delete",
+                "operationId": "eb928b8c6ed08602f8110907e760ff5c",
                 "parameters": [
                     {
                         "name": "slug",
@@ -187,7 +187,7 @@
                     "Pages"
                 ],
                 "summary": "Update an existing page identified by slug",
-                "operationId": "EscolaLms\\Pages\\Http\\Controllers\\Contracts\\PagesApiContract::update",
+                "operationId": "aea9b1c9456894afc6d0471e68996429",
                 "parameters": [
                     {
                         "name": "slug",
