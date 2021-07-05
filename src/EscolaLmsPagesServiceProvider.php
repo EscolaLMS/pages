@@ -11,6 +11,9 @@ use EscolaLms\Pages\Repository\PageRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 
+/**
+ * SWAGGER_VERSION
+ */
 class EscolaLmsPagesServiceProvider extends ServiceProvider
 {
     use Injectable;
@@ -29,7 +32,8 @@ class EscolaLmsPagesServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind(
-            ExceptionHandler::class, Handler::class
+            ExceptionHandler::class,
+            Handler::class
         );
 
         $this->publishes([

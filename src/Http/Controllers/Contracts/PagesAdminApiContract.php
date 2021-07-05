@@ -9,9 +9,6 @@ use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
 use EscolaLms\Pages\Http\Requests\PageReadRequest;
 use Illuminate\Http\JsonResponse;
 
-/**
- * SWAGGER_VERSION
- */
 interface PagesAdminApiContract
 {
     /**
@@ -57,21 +54,12 @@ interface PagesAdminApiContract
 
     /**
      * @OA\Post(
-     *     path="/api/admin/pages/{slug}",
-     *     summary="Create a new page identified by slug",
+     *     path="/api/admin/pages",
+     *     summary="Create a new page identified by id",
      *     tags={"Pages"},
      *     security={
      *         {"passport": {}},
      *     },
-     *     @OA\Parameter(
-     *         description="Unique human-readable page identifier",
-     *         in="path",
-     *         name="slug",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
      *     @OA\RequestBody(
      *         description="Page attributes",
      *         required=true,
@@ -110,8 +98,8 @@ interface PagesAdminApiContract
 
     /**
      * @OA\Patch(
-     *     path="/api/admin/pages/{slug}",
-     *     summary="Update an existing page identified by slug",
+     *     path="/api/admin/pages/{id}",
+     *     summary="Update an existing page identified by id",
      *     tags={"Pages"},
      *     security={
      *         {"passport": {}},
@@ -119,10 +107,10 @@ interface PagesAdminApiContract
      *     @OA\Parameter(
      *         description="Unique human-readable page identifier",
      *         in="path",
-     *         name="slug",
+     *         name="id",
      *         required=true,
      *         @OA\Schema(
-     *             type="string"
+     *             type="integer"
      *         )
      *     ),
      *     @OA\RequestBody(
@@ -163,8 +151,8 @@ interface PagesAdminApiContract
 
     /**
      * @OA\Delete(
-     *     path="/api/admin/pages/{slug}",
-     *     summary="Delete a page identified by a slug",
+     *     path="/api/admin/pages/{id}",
+     *     summary="Delete a page identified by a id",
      *     tags={"Pages"},
      *     security={
      *         {"passport": {}},
@@ -172,10 +160,10 @@ interface PagesAdminApiContract
      *     @OA\Parameter(
      *         description="Unique human-readable page identifier",
      *         in="path",
-     *         name="slug",
+     *         name="id",
      *         required=true,
      *         @OA\Schema(
-     *             type="string"
+     *             type="integer"
      *         )
      *     ),
      *     @OA\Response(
@@ -207,8 +195,8 @@ interface PagesAdminApiContract
 
     /**
      * @OA\Get(
-     *     path="/api/admin/pages/{slug}",
-     *     summary="Read a page identified by a given slug identifier",
+     *     path="/api/admin/pages/{id}",
+     *     summary="Read a page identified by a given id identifier",
      *     tags={"Pages"},
      *     security={
      *         {"passport": {}},
@@ -216,7 +204,7 @@ interface PagesAdminApiContract
      *     @OA\Parameter(
      *         description="Unique human-readable page identifier",
      *         in="path",
-     *         name="slug",
+     *         name="id",
      *         required=true,
      *         @OA\Schema(
      *             type="string"

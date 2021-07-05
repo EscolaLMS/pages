@@ -9,9 +9,6 @@ use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
 use EscolaLms\Pages\Http\Requests\PageReadRequest;
 use Illuminate\Http\JsonResponse;
 
-/**
- * SWAGGER_VERSION
- */
 interface PagesApiContract
 {
     /**
