@@ -16,9 +16,6 @@ interface PagesApiContract
      *     path="/api/pages",
      *     summary="Lists available pages",
      *     tags={"Pages"},
-     *     security={
-     *         {"passport": {}},
-     *     },
      *     @OA\Response(
      *         response=200,
      *         description="list of available pages",
@@ -61,9 +58,6 @@ interface PagesApiContract
      *     path="/api/pages/{slug}",
      *     summary="Read a page identified by a given slug identifier",
      *     tags={"Pages"},
-     *     security={
-     *         {"passport": {}},
-     *     },
      *     @OA\Parameter(
      *         description="Unique human-readable page identifier",
      *         in="path",
