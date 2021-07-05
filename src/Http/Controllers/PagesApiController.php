@@ -26,59 +26,13 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
     public function list(PageListingRequest $request): JsonResponse
     {
         try {
-            $pages = $this->pageService->listAll();
-            return response()->json($pages);
+            $pages = $this->pageService->listAll(['active'=>true]);
+            return $this->sendResponse($pages, "pages list retrieved successfully");
         } catch (Renderable $e) {
-            return $e->render();
+            return $this->sendError($e->getMessage());
         }
     }
 
-    public function create(PageCreateRequest $request): JsonResponse
-    {
-        try {
-            $slug = $request->getParamSlug();
-            $title = $request->getParamTitle();
-            $content = $request->getParamContent();
-
-            $user = Auth::user();
-            $page = $this->pageService->insert($slug,$title,$content,$user->id);
-            return response()->json($page);
-        } catch (Renderable $e) {
-            return $e->render();
-        }
-    }
-
-    public function update(PageUpdateRequest $request): JsonResponse
-    {
-        try {
-            $slug = $request->getParamSlug();
-            $title = $request->getParamTitle();
-            $content = $request->getParamContent();
-
-            $updated = $this->pageService->update($slug, $title, $content);
-            if (!$updated) {
-                return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
-            } 
-            return response()->json('ok',200);
-        } catch (Renderable $e) {
-            return $e->render();
-        }
-    }
-
-    public function delete(PageDeleteRequest $request): JsonResponse
-    {
-        try {
-            $slug = $request->getParamSlug();
-
-            $deleted = $this->pageService->deleteBySlug($slug);
-            if (!$deleted) {
-                return response()->json(sprintf("Page with slug '%s' doesn't exists", $slug), 400);
-            }
-            return response()->json('ok',200);
-        } catch (Renderable $e) {
-            return $e->render();
-        }
-    }
 
     public function read(PageReadRequest $request): JsonResponse
     {
@@ -86,14 +40,14 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
             $slug = $request->getParamSlug();
             $page = $this->pageService->getBySlug($slug);
             if ($page->exists) {
-                return response()->json($page);
+                if (!$page->active) {
+                    return $this->sendError(sprintf("You don't have access to page with slug '%s'", $slug), 403);
+                }
+                return $this->sendResponse($page, "page fetched successfully");
             }
-            return response()->json(
-                sprintf("Page identified by '%s' doesn't exists",$slug),
-                404
-            );
+            return $this->sendError(sprintf("Page with slug '%s' doesn't exists", $slug), 404);
         } catch (Renderable $e) {
-            return $e->render();
+            return $this->sendError($e->getMessage());
         }
     }
 }

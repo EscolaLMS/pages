@@ -17,12 +17,12 @@ class PageService implements PageServiceContract
         $this->repository = $repository;
     }
 
-    public function listAll(): array
+    public function listAll(array $search = []): array
     {
-        return $this->repository->all()
-            ->map(fn(Page $p) => $p->attributesToArray())
-            ->keyBy('slug')
-            ->map(fn(array $attributes) => collect($attributes)->except(['slug','id'])->all())
+        return $this->repository->all($search)
+            //->map(fn (Page $p) => $p->attributesToArray())
+            //->keyBy('slug')
+            //->map(fn (array $attributes) => collect($attributes)->except(['slug','id'])->all())
             ->all();
     }
 
@@ -30,6 +30,12 @@ class PageService implements PageServiceContract
     {
         return $this->repository->getBySlug($slug);
     }
+
+    public function getById(string $id): Page
+    {
+        return $this->repository->find($id);
+    }
+
 
     /**
      * @param string $slug
@@ -39,7 +45,7 @@ class PageService implements PageServiceContract
      * @return Page
      * @throws PageAlreadyExistsException
      */
-    public function insert(string $slug, string $title, string $content, int $userId): Page
+    public function insert(string $slug, string $title, string $content, int $userId, bool $active): Page
     {
         /** @var Page $page */
         $page = Page::factory()->newModel([
@@ -47,6 +53,7 @@ class PageService implements PageServiceContract
             'title'=>$title,
             'author_id'=>$userId,
             'content'=>$content,
+            'active'=>$active
         ]);
         $this->repository->insert($page);
         if (!$page->exists()) {
@@ -55,17 +62,14 @@ class PageService implements PageServiceContract
         return $page;
     }
 
-    public function deleteBySlug(string $slug): bool {
-        return $this->repository->deletePage($slug);
+    public function deleteById(int $id): bool
+    {
+        return $this->repository->deletePage($id);
     }
 
-    public function update(string $slug, string $title, string $content): bool {
-        $page = $this->repository->getBySlug($slug);
-        if (!$page->exists) {
-            return false;
-        }
-        $page->title = $title;
-        $page->content = $content;
-        return $this->repository->save($page);
+
+    public function update(int $id, array $data): Page
+    {
+        return $this->repository->update($data, $id);
     }
 }

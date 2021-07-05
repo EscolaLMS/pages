@@ -7,10 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PageCreateRequest extends FormRequest
 {
-    protected function prepareForValidation()
-    {
-        $this->merge(['slug' => $this->route('slug')]);
-    }
+
 
     /**
      * @return bool
@@ -30,7 +27,7 @@ class PageCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'string|required',
+            'slug' => 'string|required|unique:pages',
             'title' => 'string|required',
             'content' => 'string|required',
         ];
@@ -39,17 +36,17 @@ class PageCreateRequest extends FormRequest
     /**
      * @return string
      */
-    public function getParamSlug()
+    public function getParamTitle()
     {
-        return $this->route('slug');
+        return $this->get('title');
     }
 
     /**
      * @return string
      */
-    public function getParamTitle()
+    public function getParamSlug()
     {
-        return $this->get('title');
+        return $this->get('slug');
     }
 
     /**

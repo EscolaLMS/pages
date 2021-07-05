@@ -4,18 +4,21 @@ namespace EscolaLms\Pages\Tests\Api;
 
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PagesListTest extends TestCase
 {
+    use DatabaseTransactions;
+
     private string $uri = '/api/pages';
 
     public function testAdminCanListEmpty()
     {
         $this->authenticateAsAdmin();
 
-        $response = $this->getJson($this->uri);
+        $response = $this->actingAs($this->user, 'api')->getJson('/api/admin/pages');
         $response->assertOk();
-        $response->assertJsonCount(0);
+        $response->assertJsonCount(3);
     }
 
     public function testAdminCanList()
@@ -24,15 +27,48 @@ class PagesListTest extends TestCase
 
         $pages = Page::factory()
             ->count(10)
-            ->create()
-        ;
-        $response = $this->getJson($this->uri);
+            ->create();
+
+        $pagesArr = $pages->map(function (Page $p) {
+            return $p->toArray();
+        })->toArray();
+
+        $response = $this->actingAs($this->user, 'api')->getJson('/api/admin/pages');
         $response->assertOk();
-        $response->assertJson(
-            $pages->map(fn(Page $p) => $p->attributesToArray())
-                ->keyBy('slug')
-                ->map(fn(array $attributes) => collect($attributes)->except(['slug','id'])->all())
-                ->all()
+        $response->assertJsonFragment(
+            $pagesArr[0],
+        );
+    }
+
+
+
+    public function testAnonymousCanListEmpty()
+    {
+        $this->authenticateAsAdmin();
+
+        $response = $this->getJson('/api/pages');
+        $response->assertOk();
+        $response->assertJsonCount(3);
+    }
+
+    public function testAnonymousCanList()
+    {
+        $this->authenticateAsAdmin();
+
+        $pages = Page::factory()
+            ->count(10)
+            ->create(['active'=>true])
+        ;
+
+        $pagesArr = $pages->map(function (Page $p) {
+            return $p->toArray();
+        })->values()->toArray();
+
+
+        $response = $this->getJson('/api/pages');
+        $response->assertOk();
+        $response->assertJsonFragment(
+            $pagesArr[0]
         );
     }
 }

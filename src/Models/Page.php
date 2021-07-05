@@ -25,6 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *          description="page content"
  *     ),
+ *     @OA\Property(
+ *          property="active",
+ *          type="boolean",
+ *          description="page is active"
+ *     ),
  * )
  *
  * @property integer $id
@@ -32,12 +37,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  * @property integer $author_id
  * @property string $content
+ * @property boolean $active
  */
 class Page extends Model
 {
     use HasFactory;
 
-    public $table = 'escolalms_pages';
+    public $table = 'pages';
     public $timestamps = false;
 
     /**
@@ -51,13 +57,15 @@ class Page extends Model
         'title' => 'string',
         'author_id' => 'integer',
         'content' => 'string',
+        'active' => 'boolean'
     ];
 
     public $fillable = [
         'slug',
         'title',
         'author_id',
-        'content'
+        'content',
+        'active'
     ];
 
     /**

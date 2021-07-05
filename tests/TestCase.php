@@ -5,7 +5,7 @@ namespace EscolaLms\Pages\Tests;
 use EscolaLms\Core\EscolaLmsServiceProvider;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Pages\AuthServiceProvider;
-use EscolaLms\Pages\Database\Seeders\DatabaseSeeder;
+use EscolaLms\Pages\Database\Seeders\PermissionTableSeeder;
 use EscolaLms\Pages\EscolaLmsPagesServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +21,7 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(DatabaseSeeder::class);
+        $this->seed(PermissionTableSeeder::class);
     }
 
     protected function getPackageProviders($app): array

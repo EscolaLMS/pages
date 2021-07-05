@@ -5,12 +5,15 @@ namespace EscolaLms\Pages\Tests\Api;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\PageRepository;
 use EscolaLms\Pages\Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PagesDeleteTest extends TestCase
 {
-    private function uri(string $slug): string
+    use DatabaseTransactions;
+
+    private function uri(int $id): string
     {
-        return sprintf('/api/pages/%s', $slug);
+        return sprintf('/api/admin/pages/%s', $id);
     }
 
     public function testAdminCanDeleteExistingPage()
@@ -18,9 +21,9 @@ class PagesDeleteTest extends TestCase
         $this->authenticateAsAdmin();
 
         $page = Page::factory()->createOne();
-        $response = $this->actingAs($this->user, 'api')->delete($this->uri($page->slug));
+        $response = $this->actingAs($this->user, 'api')->delete($this->uri($page->id));
         $response->assertOk();
-        $this->assertEquals(0,Page::factory()->make()->newQuery()->where('slug',$page->slug)->count());
+        $this->assertEquals(0, Page::factory()->make()->newQuery()->where('slug', $page->slug)->count());
     }
 
     public function testAdminCannotDeleteMissingPage()
@@ -28,14 +31,19 @@ class PagesDeleteTest extends TestCase
         $this->authenticateAsAdmin();
 
         $page = Page::factory()->makeOne();
-        $response = $this->actingAs($this->user, 'api')->delete($this->uri($page->slug));
-        $response->assertStatus(400);
+        $page->id = 999999;
+
+        $response = $this->actingAs($this->user, 'api')->delete($this->uri($page->id));
+
+
+
+        $response->assertStatus(404);
     }
 
     public function testGuestCannotDeleteExistingPage()
     {
         $page = Page::factory()->createOne();
-        $response = $this->json('delete', $this->uri($page->slug));
+        $response = $this->json('delete', $this->uri($page->id));
         $response->assertUnauthorized();
     }
 }

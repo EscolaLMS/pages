@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePagesTable extends Migration
 {
-    private string $table = 'escolalms_pages';
+    private string $table = 'pages';
 
     public function up()
     {
@@ -19,6 +19,7 @@ class CreatePagesTable extends Migration
                 $table->string('title');
                 $table->foreignIdFor(User::class, 'author_id');
                 $table->longText('content');
+                $table->boolean('active')->default(true);
             }
         );
     }
