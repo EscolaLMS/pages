@@ -26,7 +26,7 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
     public function list(PageListingRequest $request): JsonResponse
     {
         try {
-            $pages = $this->pageService->listAll();
+            $pages = $this->pageService->listAll(['active'=>true]);
             return $this->sendResponse($pages, "pages list retrieved successfully");
         } catch (Renderable $e) {
             return $this->sendError($e->getMessage());
@@ -40,6 +40,9 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
             $slug = $request->getParamSlug();
             $page = $this->pageService->getBySlug($slug);
             if ($page->exists) {
+                if (!$page->active) {
+                    return $this->sendError(sprintf("You don't have access to page with slug '%s'", $slug), 403);
+                }
                 return $this->sendResponse($page, "page fetched successfully");
             }
             return $this->sendError(sprintf("Page with slug '%s' doesn't exists", $slug), 404);

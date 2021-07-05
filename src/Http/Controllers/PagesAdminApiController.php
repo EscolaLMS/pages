@@ -39,9 +39,10 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
             $slug = $request->getParamSlug();
             $title = $request->getParamTitle();
             $content = $request->getParamContent();
+            $active = $request->get('active');
 
             $user = Auth::user();
-            $page = $this->pageService->insert($slug, $title, $content, $user->id);
+            $page = $this->pageService->insert($slug, $title, $content, $user->id, $active);
             return $this->sendResponse($page, "page created successfully");
         } catch (Renderable $e) {
             return $this->sendError($e->getMessage());

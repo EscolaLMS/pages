@@ -6,10 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PageReadRequest extends FormRequest
 {
-    protected function prepareForValidation()
-    {
-        $this->merge(['slug' => $this->route('slug')]);
-    }
+
 
     /**
      * @return bool
@@ -27,7 +24,6 @@ class PageReadRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'string|required',
         ];
     }
 

@@ -26,6 +26,7 @@ class PageFactory extends Factory
             'title' => $title,
             'author_id' => UserFactory::new(),
             'content' => $this->faker->markdown(),
+            'active' => true
         ];
     }
 }

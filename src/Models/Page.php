@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  * @property integer $author_id
  * @property string $content
+ * @property boolean $active
  */
 class Page extends Model
 {
@@ -56,13 +57,15 @@ class Page extends Model
         'title' => 'string',
         'author_id' => 'integer',
         'content' => 'string',
+        'active' => 'boolean'
     ];
 
     public $fillable = [
         'slug',
         'title',
         'author_id',
-        'content'
+        'content',
+        'active'
     ];
 
     /**

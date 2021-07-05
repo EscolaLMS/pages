@@ -19,7 +19,7 @@ class PagesCreateTest extends TestCase
     public function testAdminCanCreatePage()
     {
         $this->authenticateAsAdmin();
-        $page = Page::factory()->makeOne();
+        $page = Page::factory()->makeOne(['active'=>false]);
         $response = $this->actingAs($this->user, 'api')->postJson(
             '/api/admin/pages',
             $page->toArray()
@@ -27,11 +27,17 @@ class PagesCreateTest extends TestCase
 
         $response->assertOk();
 
-        $response = $this->getJson(
+        $response2 = $this->getJson(
             '/api/pages/'.$page->slug,
         );
 
-        $response->assertOk();
+        $response2->assertStatus(403);
+
+        $response3 = $this->actingAs($this->user, 'api')->getJson(
+            '/api/admin/pages/'.$page->id,
+        );
+
+        $response3->assertOk();
     }
 
     public function testAdminCannotCreatePageWithoutTitle()

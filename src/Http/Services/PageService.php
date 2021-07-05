@@ -17,12 +17,12 @@ class PageService implements PageServiceContract
         $this->repository = $repository;
     }
 
-    public function listAll(): array
+    public function listAll(array $search = []): array
     {
-        return $this->repository->all()
-            ->map(fn (Page $p) => $p->attributesToArray())
-            ->keyBy('slug')
-            ->map(fn (array $attributes) => collect($attributes)->except(['slug','id'])->all())
+        return $this->repository->all($search)
+            //->map(fn (Page $p) => $p->attributesToArray())
+            //->keyBy('slug')
+            //->map(fn (array $attributes) => collect($attributes)->except(['slug','id'])->all())
             ->all();
     }
 
@@ -45,7 +45,7 @@ class PageService implements PageServiceContract
      * @return Page
      * @throws PageAlreadyExistsException
      */
-    public function insert(string $slug, string $title, string $content, int $userId): Page
+    public function insert(string $slug, string $title, string $content, int $userId, bool $active): Page
     {
         /** @var Page $page */
         $page = Page::factory()->newModel([
@@ -53,6 +53,7 @@ class PageService implements PageServiceContract
             'title'=>$title,
             'author_id'=>$userId,
             'content'=>$content,
+            'active'=>$active
         ]);
         $this->repository->insert($page);
         if (!$page->exists()) {
