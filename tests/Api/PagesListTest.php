@@ -4,9 +4,12 @@ namespace EscolaLms\Pages\Tests\Api;
 
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PagesListTest extends TestCase
 {
+    use DatabaseTransactions;
+
     private string $uri = '/api/pages';
 
     public function testAdminCanListEmpty()
@@ -15,7 +18,7 @@ class PagesListTest extends TestCase
 
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $response->assertJsonCount(0);
+        $response->assertJsonCount(3);
     }
 
     public function testAdminCanList()
@@ -28,10 +31,10 @@ class PagesListTest extends TestCase
         ;
         $response = $this->getJson($this->uri);
         $response->assertOk();
-        $response->assertJson(
-            $pages->map(fn(Page $p) => $p->attributesToArray())
+        $response->assertJsonFragment(
+            $pages->map(fn (Page $p) => $p->attributesToArray())
                 ->keyBy('slug')
-                ->map(fn(array $attributes) => collect($attributes)->except(['slug','id'])->all())
+                ->map(fn (array $attributes) => collect($attributes)->except(['slug','id'])->all())
                 ->all()
         );
     }

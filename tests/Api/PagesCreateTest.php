@@ -5,12 +5,15 @@ namespace EscolaLms\Pages\Tests\Api;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\PageRepository;
 use EscolaLms\Pages\Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PagesCreateTest extends TestCase
 {
+    use DatabaseTransactions;
+
     private function uri(string $slug): string
     {
-        return sprintf('/api/pages/%s', $slug);
+        return sprintf('/api/admin/pages%s', $slug);
     }
 
     public function testAdminCanCreatePage()
@@ -18,12 +21,17 @@ class PagesCreateTest extends TestCase
         $this->authenticateAsAdmin();
         $page = Page::factory()->makeOne();
         $response = $this->actingAs($this->user, 'api')->postJson(
-            $this->uri($page->slug),
-            collect($page->getAttributes())->except('id','slug')->toArray()
+            '/api/admin/pages',
+            $page->toArray()
         );
 
         $response->assertOk();
-        //TODO: make sure the page exists
+
+        $response = $this->getJson(
+            '/api/pages/'.$page->slug,
+        );
+
+        $response->assertOk();
     }
 
     public function testAdminCannotCreatePageWithoutTitle()
@@ -32,11 +40,15 @@ class PagesCreateTest extends TestCase
 
         $page = Page::factory()->makeOne();
         $response = $this->actingAs($this->user, 'api')->postJson(
-            $this->uri($page->slug),
-            collect($page->getAttributes())->except('id','slug','title')->toArray()
+            '/api/admin/pages',
+            collect($page->getAttributes())->except('id', 'slug', 'title')->toArray()
         );
         $response->assertStatus(422);
-        //TODO: make sure the page doesn't exists
+        $response = $this->getJson(
+            '/api/pages/'.$page->slug,
+        );
+
+        $response->assertNotFound();
     }
 
     public function testAdminCannotCreatePageWithoutContent()
@@ -45,8 +57,8 @@ class PagesCreateTest extends TestCase
 
         $page = Page::factory()->makeOne();
         $response = $this->actingAs($this->user, 'api')->postJson(
-            $this->uri($page->slug),
-            collect($page->getAttributes())->except('id','slug','content')->toArray()
+            '/api/admin/pages',
+            collect($page->getAttributes())->except('id', 'slug', 'content')->toArray()
         );
         $response->assertStatus(422);
         //TODO: make sure the page doesn't exists
@@ -58,7 +70,7 @@ class PagesCreateTest extends TestCase
 
         $page = Page::factory()->createOne();
         $duplicate = Page::factory()->makeOne($page->getAttributes());
-        $response = $this->actingAs($this->user, 'api')->postJson($this->uri($duplicate->slug));
+        $response = $this->actingAs($this->user, 'api')->postJson('/api/admin/pages', $page->toArray());
         $response->assertStatus(422);
     }
 
@@ -66,8 +78,8 @@ class PagesCreateTest extends TestCase
     {
         $page = Page::factory()->makeOne();
         $response = $this->postJson(
-            $this->uri($page->slug),
-            collect($page->getAttributes())->except('id','slug')->toArray()
+            '/api/admin/pages',
+            collect($page->getAttributes())->except('id', 'slug')->toArray()
         );
         $response->assertUnauthorized();
     }

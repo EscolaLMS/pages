@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 
 class PageRepository extends BaseRepository implements PageRepositoryContract
 {
-
     public function model()
     {
         return Page::class;
@@ -29,7 +28,8 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
      * @param string $slug
      * @return Page
      */
-    public function getBySlug(string $slug): Page {
+    public function getBySlug(string $slug): Page
+    {
         return $this->model->newQuery()->where('slug', $slug)->firstOrNew();
     }
 
@@ -43,14 +43,24 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
     }
 
     /**
-     * @param string $slug
+     * @param int $id
      * @return bool
      */
-    public function deletePage(string $slug): bool {
-        return $this->model->newQuery()->where('slug', $slug)->delete();
+    public function deletePage(int $id): bool
+    {
+        $page = $this->find($id);
+        if (!$page) {
+            return false;
+        }
+        try {
+            return $page->delete();
+        } catch (\Exception $err) {
+            return false;
+        }
     }
 
-    public function save(Page $page): bool {
+    public function save(Page $page): bool
+    {
         return $page->save();
     }
 }

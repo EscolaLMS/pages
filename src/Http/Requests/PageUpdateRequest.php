@@ -6,10 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PageUpdateRequest extends FormRequest
 {
-    protected function prepareForValidation()
-    {
-        $this->merge(['slug' => $this->route('slug')]);
-    }
+
 
     /**
      * @return bool
@@ -29,9 +26,9 @@ class PageUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'string|required',
-            'title' => 'string|required',
-            'content' => 'string|required',
+            'slug' => 'string|unique:pages',
+            'title' => 'string',
+            'content' => 'string',
         ];
     }
 
@@ -40,9 +37,8 @@ class PageUpdateRequest extends FormRequest
      */
     public function getParamSlug()
     {
-        return $this->route('slug');
+        return $this->get('slug');
     }
-
     /**
      * @returns string
      */

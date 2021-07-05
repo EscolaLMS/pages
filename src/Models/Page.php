@@ -25,6 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  *          type="string",
  *          description="page content"
  *     ),
+ *     @OA\Property(
+ *          property="active",
+ *          type="boolean",
+ *          description="page is active"
+ *     ),
  * )
  *
  * @property integer $id
@@ -37,7 +42,7 @@ class Page extends Model
 {
     use HasFactory;
 
-    public $table = 'escolalms_pages';
+    public $table = 'pages';
     public $timestamps = false;
 
     /**

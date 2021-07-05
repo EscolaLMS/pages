@@ -4,9 +4,12 @@ namespace EscolaLms\Pages\Tests\Api;
 
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PagesReadTest extends TestCase
 {
+    use DatabaseTransactions;
+
     private function uri(string $slug): string
     {
         return sprintf('/api/pages/%s', $slug);
@@ -18,7 +21,7 @@ class PagesReadTest extends TestCase
 
         $response = $this->getJson($this->uri($page->slug));
         $response->assertOk();
-        $response->assertJson(collect($page->getAttributes())->except('id','slug')->toArray());
+        $response->assertJsonFragment(collect($page->getAttributes())->except('id', 'slug')->toArray());
     }
 
     public function testCannotFindMissing()

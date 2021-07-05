@@ -3,6 +3,7 @@
 namespace EscolaLms\Pages\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use EscolaLms\Pages\Models\Page;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(PermissionTableSeeder::class);
+        Page::factory()
+            ->count(10)
+            ->create();
     }
 }
