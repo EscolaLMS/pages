@@ -13,7 +13,7 @@ interface PagesApiContract
 {
     /**
      * @OA\Get(
-     *     path="/api/admin/pages",
+     *     path="/api/pages",
      *     summary="Lists available pages",
      *     tags={"Pages"},
      *     security={
@@ -58,7 +58,7 @@ interface PagesApiContract
 
     /**
      * @OA\Get(
-     *     path="/api/admin/pages/{slug}",
+     *     path="/api/pages/{slug}",
      *     summary="Read a page identified by a given slug identifier",
      *     tags={"Pages"},
      *     security={
