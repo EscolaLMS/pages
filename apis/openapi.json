@@ -5,6 +5,227 @@
         "version": "0.0.1"
     },
     "paths": {
+        "/api/admin/pages": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Lists available pages",
+                "responses": {
+                    "200": {
+                        "description": "list of available pages",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "map of pages identified by a slug value",
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "$ref": "#/components/schemas/Page"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "endpoint requires authentication"
+                    },
+                    "403": {
+                        "description": "user doesn't have required access rights"
+                    },
+                    "500": {
+                        "description": "server-side error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Create a new page identified by id",
+                "operationId": "4e70710033f0ceb8ac1b8c6aaf73732a",
+                "requestBody": {
+                    "description": "Page attributes",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Page"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "page created successfully"
+                    },
+                    "401": {
+                        "description": "endpoint requires authentication"
+                    },
+                    "403": {
+                        "description": "user doesn't have required access rights"
+                    },
+                    "409": {
+                        "description": "there already is a page identified by chosen slug identifier"
+                    },
+                    "422": {
+                        "description": "one of the parameters has invalid format"
+                    },
+                    "500": {
+                        "description": "server-side error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/pages/{id}": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Read a page identified by a given id identifier",
+                "operationId": "a3153fb9f6ebb1344421443708259588",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique human-readable page identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Page"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "endpoint requires authentication"
+                    },
+                    "403": {
+                        "description": "user doesn't have required access rights"
+                    },
+                    "500": {
+                        "description": "server-side error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Delete a page identified by a id",
+                "operationId": "9a15c1b3253caad40df8c99562bda1ce",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique human-readable page identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "page deleted successfully"
+                    },
+                    "401": {
+                        "description": "endpoint requires authentication"
+                    },
+                    "403": {
+                        "description": "user doesn't have required access rights"
+                    },
+                    "400": {
+                        "description": "cannot find a page with provided slug identifier"
+                    },
+                    "500": {
+                        "description": "server-side error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Update an existing page identified by id",
+                "operationId": "830084b4fc07323e203589a6845b119c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique human-readable page identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Page attributes",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Page"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "page updated successfully"
+                    },
+                    "401": {
+                        "description": "endpoint requires authentication"
+                    },
+                    "403": {
+                        "description": "user doesn't have required access rights"
+                    },
+                    "400": {
+                        "description": "cannot find a page with provided slug identifier"
+                    },
+                    "422": {
+                        "description": "one of the parameters has invalid format"
+                    },
+                    "500": {
+                        "description": "server-side error"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
         "/api/pages": {
             "get": {
                 "tags": [
@@ -17,7 +238,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "description": "map of pages identified by a slug vaue",
+                                    "description": "map of pages identified by a slug value",
                                     "type": "object",
                                     "additionalProperties": {
                                         "$ref": "#/components/schemas/Page"
@@ -87,154 +308,6 @@
                         "passport": []
                     }
                 ]
-            },
-            "post": {
-                "tags": [
-                    "Pages"
-                ],
-                "summary": "Create a new page identified by slug",
-                "operationId": "e68146b5a76f4ac8903d245e69129a7c",
-                "parameters": [
-                    {
-                        "name": "slug",
-                        "in": "path",
-                        "description": "Unique human-readable page identifier",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Page attributes",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Page"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "page created successfully"
-                    },
-                    "401": {
-                        "description": "endpoint requires authentication"
-                    },
-                    "403": {
-                        "description": "user doesn't have required access rights"
-                    },
-                    "409": {
-                        "description": "there already is a page identified by chosen slug identifier"
-                    },
-                    "422": {
-                        "description": "one of the parameters has invalid format"
-                    },
-                    "500": {
-                        "description": "server-side error"
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Pages"
-                ],
-                "summary": "Delete a page identified by a slug",
-                "operationId": "eb928b8c6ed08602f8110907e760ff5c",
-                "parameters": [
-                    {
-                        "name": "slug",
-                        "in": "path",
-                        "description": "Unique human-readable page identifier",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "page deleted successfully"
-                    },
-                    "401": {
-                        "description": "endpoint requires authentication"
-                    },
-                    "403": {
-                        "description": "user doesn't have required access rights"
-                    },
-                    "400": {
-                        "description": "cannot find a page with provided slug identifier"
-                    },
-                    "500": {
-                        "description": "server-side error"
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
-            },
-            "patch": {
-                "tags": [
-                    "Pages"
-                ],
-                "summary": "Update an existing page identified by slug",
-                "operationId": "aea9b1c9456894afc6d0471e68996429",
-                "parameters": [
-                    {
-                        "name": "slug",
-                        "in": "path",
-                        "description": "Unique human-readable page identifier",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "Page attributes",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Page"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "page updated successfully"
-                    },
-                    "401": {
-                        "description": "endpoint requires authentication"
-                    },
-                    "403": {
-                        "description": "user doesn't have required access rights"
-                    },
-                    "400": {
-                        "description": "cannot find a page with provided slug identifier"
-                    },
-                    "422": {
-                        "description": "one of the parameters has invalid format"
-                    },
-                    "500": {
-                        "description": "server-side error"
-                    }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
             }
         }
     },
@@ -258,6 +331,10 @@
                     "content": {
                         "description": "page content",
                         "type": "string"
+                    },
+                    "active": {
+                        "description": "page is active",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
