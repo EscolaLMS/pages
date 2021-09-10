@@ -18,7 +18,13 @@ class PagesListTest extends TestCase
 
         $response = $this->actingAs($this->user, 'api')->getJson('/api/admin/pages');
         $response->assertOk();
-        $response->assertJsonCount(3);
+        $response->assertJsonStructure([
+            'success',
+            'data',
+            'meta',
+            'message'
+        ]);
+        $response->assertJsonCount(0, 'data');
     }
 
     public function testAdminCanList()
@@ -40,15 +46,19 @@ class PagesListTest extends TestCase
         );
     }
 
-
-
     public function testAnonymousCanListEmpty()
     {
         $this->authenticateAsAdmin();
 
         $response = $this->getJson('/api/pages');
         $response->assertOk();
-        $response->assertJsonCount(3);
+        $response->assertJsonStructure([
+            'success',
+            'data',
+            'meta',
+            'message'
+        ]);
+        $response->assertJsonCount(0, 'data');
     }
 
     public function testAnonymousCanList()
@@ -57,8 +67,7 @@ class PagesListTest extends TestCase
 
         $pages = Page::factory()
             ->count(10)
-            ->create(['active'=>true])
-        ;
+            ->create(['active' => true]);
 
         $pagesArr = $pages->map(function (Page $p) {
             return $p->toArray();

@@ -2,11 +2,11 @@
 
 namespace EscolaLms\Pages\Http\Services;
 
-use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use EscolaLms\Pages\Http\Exceptions\PageAlreadyExistsException;
+use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\Contracts\PageRepositoryContract;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PageService implements PageServiceContract
 {
@@ -17,13 +17,9 @@ class PageService implements PageServiceContract
         $this->repository = $repository;
     }
 
-    public function listAll(array $search = []): array
+    public function search(array $search = []): LengthAwarePaginator
     {
-        return $this->repository->all($search)
-            //->map(fn (Page $p) => $p->attributesToArray())
-            //->keyBy('slug')
-            //->map(fn (array $attributes) => collect($attributes)->except(['slug','id'])->all())
-            ->all();
+        return $this->repository->searchAndPaginate($search);
     }
 
     public function getBySlug(string $slug): Page
@@ -36,24 +32,18 @@ class PageService implements PageServiceContract
         return $this->repository->find($id);
     }
 
-
     /**
-     * @param string $slug
-     * @param string $title
-     * @param string $content
-     * @param int $userId
-     * @return Page
      * @throws PageAlreadyExistsException
      */
     public function insert(string $slug, string $title, string $content, int $userId, bool $active): Page
     {
         /** @var Page $page */
         $page = Page::factory()->newModel([
-            'slug'=>$slug,
-            'title'=>$title,
-            'author_id'=>$userId,
-            'content'=>$content,
-            'active'=>$active
+            'slug' => $slug,
+            'title' => $title,
+            'author_id' => $userId,
+            'content' => $content,
+            'active' => $active
         ]);
         $this->repository->insert($page);
         if (!$page->exists()) {
@@ -66,7 +56,6 @@ class PageService implements PageServiceContract
     {
         return $this->repository->deletePage($id);
     }
-
 
     public function update(int $id, array $data): Page
     {

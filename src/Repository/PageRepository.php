@@ -5,7 +5,7 @@ namespace EscolaLms\Pages\Repository;
 use EscolaLms\Core\Repositories\BaseRepository;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Repository\Contracts\PageRepositoryContract;
-use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PageRepository extends BaseRepository implements PageRepositoryContract
 {
@@ -19,9 +19,9 @@ class PageRepository extends BaseRepository implements PageRepositoryContract
         return [];
     }
 
-    public function all(array $search = [], ?int $skip = null, ?int $limit = null, array $columns = ['*'], string $orderDirection = 'asc', string $orderColumn = 'id')
+    public function searchAndPaginate(array $search = [], ?int $perPage = null, string $orderDirection = 'asc', string $orderColumn = 'id'): LengthAwarePaginator
     {
-        return parent::all($search, $skip, $limit, $columns, $orderDirection, $orderColumn);
+        return $this->allQuery($search)->orderBy($orderColumn, $orderDirection)->paginate($perPage);
     }
 
     /**

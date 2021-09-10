@@ -13,10 +13,16 @@
         "orchestra/testbench": ">=5.0"
     },
     "license": "Apache-2.0",
-    "authors": [{
-        "name": "Mariusz Gliwiński",
-        "email": "mariusz.gliwinski@escola.pl"
-    }],
+    "authors": [
+        {
+            "name": "Paweł Chołaj",
+            "email": "pawel.cholaj@escola.pl"
+        },
+        {
+            "name": "Mariusz Gliwiński",
+            "email": "mariusz.gliwinski@escola.pl"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "EscolaLms\\Pages\\": "src",

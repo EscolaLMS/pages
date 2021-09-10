@@ -3,7 +3,6 @@
 namespace EscolaLms\Pages\Tests\Api;
 
 use EscolaLms\Pages\Models\Page;
-use EscolaLms\Pages\Repository\PageRepository;
 use EscolaLms\Pages\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -19,22 +18,22 @@ class PagesCreateTest extends TestCase
     public function testAdminCanCreatePage()
     {
         $this->authenticateAsAdmin();
-        $page = Page::factory()->makeOne(['active'=>false]);
+        $page = Page::factory()->makeOne(['active' => false]);
         $response = $this->actingAs($this->user, 'api')->postJson(
             '/api/admin/pages',
             $page->toArray()
         );
 
-        $response->assertOk();
+        $response->assertStatus(201);
 
         $response2 = $this->getJson(
-            '/api/pages/'.$page->slug,
+            '/api/pages/' . $page->slug,
         );
 
         $response2->assertStatus(403);
 
         $response3 = $this->actingAs($this->user, 'api')->getJson(
-            '/api/admin/pages/'.$page->id,
+            '/api/admin/pages/' . $page->id,
         );
 
         $response3->assertOk();
@@ -51,7 +50,7 @@ class PagesCreateTest extends TestCase
         );
         $response->assertStatus(422);
         $response = $this->getJson(
-            '/api/pages/'.$page->slug,
+            '/api/pages/' . $page->slug,
         );
 
         $response->assertNotFound();

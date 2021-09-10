@@ -3,6 +3,7 @@
 namespace EscolaLms\Pages\Http\Services\Contracts;
 
 use EscolaLms\Pages\Models\Page;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * Interface PageServiceContract
@@ -10,10 +11,7 @@ use EscolaLms\Pages\Models\Page;
  */
 interface PageServiceContract
 {
-    /**
-     * @return Page[]
-     */
-    public function listAll(array $search = []): array;
+    public function search(array $search = []): LengthAwarePaginator;
 
     public function getBySlug(string $slug): Page;
 
