@@ -4,13 +4,14 @@ namespace EscolaLms\Pages\Http\Controllers;
 
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Pages\Http\Controllers\Contracts\PagesAdminApiContract;
-use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
-use EscolaLms\Pages\Http\Requests\PageCreateRequest;
-use EscolaLms\Pages\Http\Requests\PageListingRequest;
-use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
-use EscolaLms\Pages\Http\Requests\PageReadRequest;
-use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use EscolaLms\Pages\Http\Exceptions\Contracts\Renderable;
+use EscolaLms\Pages\Http\Requests\PageCreateRequest;
+use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
+use EscolaLms\Pages\Http\Requests\PageListingRequest;
+use EscolaLms\Pages\Http\Requests\PageReadRequest;
+use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
+use EscolaLms\Pages\Http\Resources\PageResource;
+use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +27,8 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
     public function list(PageListingRequest $request): JsonResponse
     {
         try {
-            $pages = $this->pageService->listAll();
-            return $this->sendResponse($pages, "pages list retrieved successfully");
+            $pages = $this->pageService->search();
+            return $this->sendResponseForResource(PageResource::collection($pages), "pages list retrieved successfully");
         } catch (Renderable $e) {
             return $this->sendError($e->getMessage());
         }
@@ -43,7 +44,7 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
 
             $user = Auth::user();
             $page = $this->pageService->insert($slug, $title, $content, $user->id, $active);
-            return $this->sendResponse($page, "page created successfully");
+            return $this->sendResponseForResource(PageResource::make($page), "page created successfully");
         } catch (Renderable $e) {
             return $this->sendError($e->getMessage());
         }
@@ -58,7 +59,7 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
             if (!$updated) {
                 return $this->sendError(sprintf("Page with slug '%s' doesn't exists", $id), 404);
             }
-            return $this->sendResponse($updated, "page updated successfully");
+            return $this->sendResponseForResource(PageResource::make($updated), "page updated successfully");
         } catch (Renderable $e) {
             return $this->sendError($e->getMessage());
         }
@@ -82,7 +83,7 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
         try {
             $page = $this->pageService->findById($id);
             if ($page->exists) {
-                return $this->sendResponse($page, "page fetched successfully");
+                return $this->sendResponseForResource(PageResource::make($page), "page fetched successfully");
             }
             return $this->sendError(sprintf("Page with id '%s' doesn't exists", $id), 404);
         } catch (Renderable $e) {
