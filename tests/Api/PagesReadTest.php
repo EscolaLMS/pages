@@ -29,4 +29,15 @@ class PagesReadTest extends TestCase
         $response = $this->getJson($this->uri('non-existing-page'));
         $response->assertNotFound();
     }
+
+    public function testAdminCanReadExistingById()
+    {
+        $this->authenticateAsAdmin();
+
+        $page = Page::factory()->createOne();
+
+        $response = $this->actingAs($this->user, 'api')->getJson('/api/admin/pages/' . $page->getKey());
+        $response->assertOk();
+        $response->assertJsonFragment(collect($page->getAttributes())->except('id', 'slug')->toArray());
+    }
 }

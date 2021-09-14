@@ -81,7 +81,7 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
     public function read(PageReadRequest $request, int $id): JsonResponse
     {
         try {
-            $page = $this->pageService->findById($id);
+            $page = $this->pageService->getById($id);
             if ($page->exists) {
                 return $this->sendResponseForResource(PageResource::make($page), "page fetched successfully");
             }

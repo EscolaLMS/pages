@@ -27,7 +27,7 @@ class PageService implements PageServiceContract
         return $this->repository->getBySlug($slug);
     }
 
-    public function getById(string $id): Page
+    public function getById(int $id): Page
     {
         return $this->repository->find($id);
     }

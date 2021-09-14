@@ -15,6 +15,8 @@ interface PageServiceContract
 
     public function getBySlug(string $slug): Page;
 
+    public function getById(int $id): Page;
+
     /**
      * @throws EscolaLms\Pages\Http\Exception\PageAlreadyExistsException
      */
