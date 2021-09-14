@@ -30,7 +30,6 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         }
     }
 
-
     public function read(PageReadRequest $request): JsonResponse
     {
         try {
