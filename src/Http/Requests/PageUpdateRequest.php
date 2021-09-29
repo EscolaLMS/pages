@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PageUpdateRequest extends FormRequest
@@ -26,9 +27,9 @@ class PageUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'slug' => 'string|unique:pages',
-            'title' => 'string',
-            'content' => 'string',
+            'slug' => ['string', Rule::unique('pages')->ignore($this->route('id'))],
+            'title' => ['string'],
+            'content' => ['string'],
         ];
     }
 
