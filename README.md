@@ -8,7 +8,4 @@ Static page management package
 [![downloads](https://img.shields.io/packagist/dt/escolalms/pages)](https://packagist.org/packages/escolalms/pages)
 [![downloads](https://img.shields.io/packagist/v/escolalms/pages)](https://packagist.org/packages/escolalms/pages)
 [![downloads](https://img.shields.io/packagist/l/escolalms/pages)](https://packagist.org/packages/escolalms/pages)
-
-
-## TODO
-* list -> paging
+[![Maintainability](https://api.codeclimate.com/v1/badges/49c10a482155d8ab86c1/maintainability)](https://codeclimate.com/github/EscolaLMS/pages/maintainability)
