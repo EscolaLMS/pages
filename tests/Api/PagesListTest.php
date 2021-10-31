@@ -14,8 +14,6 @@ class PagesListTest extends TestCase
 
     public function testAdminCanListEmpty()
     {
-        Page::truncate();
-
         $this->authenticateAsAdmin();
 
         $response = $this->actingAs($this->user, 'api')->getJson('/api/admin/pages');
@@ -50,8 +48,6 @@ class PagesListTest extends TestCase
 
     public function testAnonymousCanListEmpty()
     {
-        Page::truncate();
-
         $this->authenticateAsAdmin();
 
         $response = $this->getJson('/api/pages');
