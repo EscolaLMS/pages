@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PageDeleteRequest extends FormRequest
@@ -15,7 +16,7 @@ class PageDeleteRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user->can('delete pages', 'api');
+        return $user->can(PagesPermissionsEnum::PAGE_DELETE, 'api');
     }
 
     /**

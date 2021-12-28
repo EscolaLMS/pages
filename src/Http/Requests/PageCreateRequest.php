@@ -3,12 +3,11 @@
 namespace EscolaLms\Pages\Http\Requests;
 
 use EscolaLms\Core\Models\User;
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PageCreateRequest extends FormRequest
 {
-
-
     /**
      * @return bool
      */
@@ -16,7 +15,7 @@ class PageCreateRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user->can('create pages', 'api');
+        return $user->can(PagesPermissionsEnum::PAGE_CREATE, 'api');
     }
 
     /**

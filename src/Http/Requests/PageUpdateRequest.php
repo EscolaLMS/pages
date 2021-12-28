@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,7 +17,7 @@ class PageUpdateRequest extends FormRequest
     {
         /** @var User $user */
         $user = $this->user();
-        return $user->can('update pages', 'api');
+        return $user->can(PagesPermissionsEnum::PAGE_UPDATE, 'api');
     }
 
     /**

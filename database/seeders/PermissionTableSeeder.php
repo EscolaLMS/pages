@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Database\Seeders;
 
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -17,7 +18,11 @@ class PermissionTableSeeder extends Seeder
 
         $apiAdmin = Role::findOrCreate('admin', 'api');
         $webAdmin = Role::findOrCreate('admin', 'web');
-        $permissions = ['delete pages', 'create pages', 'update pages'];
+        $permissions = [
+            PagesPermissionsEnum::PAGE_DELETE,
+            PagesPermissionsEnum::PAGE_UPDATE,
+            PagesPermissionsEnum::PAGE_CREATE,
+        ];
 
         foreach ($permissions as $permission) {
             Permission::findOrCreate($permission, 'api');
