@@ -5,6 +5,7 @@ namespace EscolaLms\Pages\Tests;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Pages\AuthServiceProvider;
 use EscolaLms\Pages\Database\Seeders\PermissionTableSeeder;
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use EscolaLms\Pages\EscolaLmsPagesServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\PassportServiceProvider;
@@ -42,8 +43,8 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     {
         $this->user = config('auth.providers.users.model')::factory()->create();
         $this->user->guard_name = 'api';
-        $this->user->givePermissionTo('create pages');
-        $this->user->givePermissionTo('update pages');
-        $this->user->givePermissionTo('delete pages');
+        $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_CREATE);
+        $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_UPDATE);
+        $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_DELETE);
     }
 }

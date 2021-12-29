@@ -3,6 +3,7 @@
 namespace EscolaLms\Pages\Policies;
 
 use EscolaLms\Core\Models\User;
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use EscolaLms\Pages\Models\Page;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -16,7 +17,7 @@ class PagePolicy
      */
     public function create(User $user)
     {
-        return $user->can('create pages');
+        return $user->can(PagesPermissionsEnum::PAGE_CREATE);
     }
 
     /**
@@ -26,7 +27,7 @@ class PagePolicy
      */
     public function delete(User $user, Page $page)
     {
-        return $user->can('delete pages');
+        return $user->can(PagesPermissionsEnum::PAGE_DELETE);
     }
 
     /**
@@ -36,6 +37,6 @@ class PagePolicy
      */
     public function update(User $user, Page $page)
     {
-        return $user->can('update pages');
+        return $user->can(PagesPermissionsEnum::PAGE_UPDATE);
     }
 }
