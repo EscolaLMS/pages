@@ -11,7 +11,7 @@ class PageCreateRequest extends FormRequest
     /**
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         /** @var User $user */
         $user = $this->user();
@@ -23,7 +23,7 @@ class PageCreateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'slug' => 'string|required|unique:pages',
@@ -35,7 +35,7 @@ class PageCreateRequest extends FormRequest
     /**
      * @return string
      */
-    public function getParamTitle()
+    public function getParamTitle(): string
     {
         return $this->get('title');
     }
@@ -43,7 +43,7 @@ class PageCreateRequest extends FormRequest
     /**
      * @return string
      */
-    public function getParamSlug()
+    public function getParamSlug(): string
     {
         return $this->get('slug');
     }
@@ -51,7 +51,7 @@ class PageCreateRequest extends FormRequest
     /**
      * @return string
      */
-    public function getParamContent()
+    public function getParamContent(): string
     {
         return $this->get('content', '');
     }

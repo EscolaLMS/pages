@@ -2,18 +2,19 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PageReadRequest extends FormRequest
 {
-
-
     /**
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        /** @var User $user */
+        $user = $this->user();
+        return $user->can(PagesPermissionsEnum::PAGE_READ, 'api');
     }
 
     /**
@@ -21,10 +22,9 @@ class PageReadRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public function getParamSlug()

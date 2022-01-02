@@ -16,7 +16,7 @@ class PagesDeleteTest extends TestCase
         return sprintf('/api/admin/pages/%s', $id);
     }
 
-    public function testAdminCanDeleteExistingPage()
+    public function testAdminCanDeleteExistingPage(): void
     {
         $this->authenticateAsAdmin();
 
@@ -26,7 +26,7 @@ class PagesDeleteTest extends TestCase
         $this->assertEquals(0, Page::factory()->make()->newQuery()->where('slug', $page->slug)->count());
     }
 
-    public function testAdminCannotDeleteMissingPage()
+    public function testAdminCannotDeleteMissingPage(): void
     {
         $this->authenticateAsAdmin();
 
@@ -35,12 +35,10 @@ class PagesDeleteTest extends TestCase
 
         $response = $this->actingAs($this->user, 'api')->delete($this->uri($page->id));
 
-
-
         $response->assertStatus(404);
     }
 
-    public function testGuestCannotDeleteExistingPage()
+    public function testGuestCannotDeleteExistingPage(): void
     {
         $page = Page::factory()->createOne();
         $response = $this->json('delete', $this->uri($page->id));

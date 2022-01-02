@@ -12,7 +12,7 @@ class PagesListTest extends TestCase
 
     private string $uri = '/api/pages';
 
-    public function testAdminCanListEmpty()
+    public function testAdminCanListEmpty(): void
     {
         $this->authenticateAsAdmin();
 
@@ -27,7 +27,7 @@ class PagesListTest extends TestCase
         $response->assertJsonCount(0, 'data');
     }
 
-    public function testAdminCanList()
+    public function testAdminCanList(): void
     {
         $this->authenticateAsAdmin();
 
@@ -46,7 +46,7 @@ class PagesListTest extends TestCase
         );
     }
 
-    public function testAnonymousCanListEmpty()
+    public function testAnonymousCanListEmpty(): void
     {
         $this->authenticateAsAdmin();
 
@@ -61,7 +61,7 @@ class PagesListTest extends TestCase
         $response->assertJsonCount(0, 'data');
     }
 
-    public function testAnonymousCanList()
+    public function testAnonymousCanList(): void
     {
         $this->authenticateAsAdmin();
 
@@ -79,5 +79,11 @@ class PagesListTest extends TestCase
         $response->assertJsonFragment(
             $pagesArr[0]
         );
+    }
+
+    public function testGuestCannotList(): void
+    {
+        $response = $this->getJson('/api/pages');
+        $response->assertUnauthorized();
     }
 }

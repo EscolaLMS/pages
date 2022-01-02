@@ -15,7 +15,7 @@ class PagesReadTest extends TestCase
         return sprintf('/api/pages/%s', $slug);
     }
 
-    public function testCanReadExisting()
+    public function testCanReadExisting(): void
     {
         $page = Page::factory()->createOne();
 
@@ -24,13 +24,13 @@ class PagesReadTest extends TestCase
         $response->assertJsonFragment(collect($page->getAttributes())->except('id', 'slug')->toArray());
     }
 
-    public function testCannotFindMissing()
+    public function testCannotFindMissing(): void
     {
         $response = $this->getJson($this->uri('non-existing-page'));
         $response->assertNotFound();
     }
 
-    public function testAdminCanReadExistingById()
+    public function testAdminCanReadExistingById(): void
     {
         $this->authenticateAsAdmin();
 
@@ -39,5 +39,14 @@ class PagesReadTest extends TestCase
         $response = $this->actingAs($this->user, 'api')->getJson('/api/admin/pages/' . $page->getKey());
         $response->assertOk();
         $response->assertJsonFragment(collect($page->getAttributes())->except('id', 'slug')->toArray());
+    }
+
+    public function testGuestCannotReadExisting(): void
+    {
+        $page = Page::factory()->createOne();
+
+        $response = $this->getJson($this->uri($page->slug));
+
+        $response->assertUnauthorized();
     }
 }

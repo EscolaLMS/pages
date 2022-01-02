@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use EscolaLms\Pages\Enums\PagesPermissionsEnum;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -10,10 +11,11 @@ class PageListingRequest extends FormRequest
     /**
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         /** @var User $user */
-        return true;
+        $user = $this->user();
+        return $user->can(PagesPermissionsEnum::PAGE_LIST, 'api');
     }
 
     /**
@@ -21,9 +23,8 @@ class PageListingRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-        ];
+        return [];
     }
 }

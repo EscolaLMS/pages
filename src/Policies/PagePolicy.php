@@ -11,11 +11,21 @@ class PagePolicy
 {
     use HandlesAuthorization;
 
+    public function list(User $user): bool
+    {
+        return $user->can(PagesPermissionsEnum::PAGE_LIST);
+    }
+
+    public function read(User $user): bool
+    {
+        return $user->can(PagesPermissionsEnum::PAGE_READ);
+    }
+
     /**
      * @param User $user
      * @return bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_CREATE);
     }
@@ -25,7 +35,7 @@ class PagePolicy
      * @param Page $page
      * @return bool
      */
-    public function delete(User $user, Page $page)
+    public function delete(User $user, Page $page): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_DELETE);
     }
@@ -35,7 +45,7 @@ class PagePolicy
      * @param Page $page
      * @return bool
      */
-    public function update(User $user, Page $page)
+    public function update(User $user, Page $page): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_UPDATE);
     }

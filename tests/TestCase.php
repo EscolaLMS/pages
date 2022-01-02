@@ -34,15 +34,17 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         parent::getEnvironmentSetUp($app);
     }
 
-    protected function authenticateAsAdmin()
+    protected function authenticateAsAdmin(): void
     {
         $this->user = config('auth.providers.users.model')::factory()->create();
         $this->user->guard_name = 'api';
+        $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_LIST);
+        $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_READ);
         $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_CREATE);
         $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_UPDATE);
         $this->user->givePermissionTo(PagesPermissionsEnum::PAGE_DELETE);

@@ -15,7 +15,7 @@ class PagesCreateTest extends TestCase
         return sprintf('/api/admin/pages%s', $slug);
     }
 
-    public function testAdminCanCreatePage()
+    public function testAdminCanCreatePage(): void
     {
         $this->authenticateAsAdmin();
         $page = Page::factory()->makeOne(['active' => false]);
@@ -39,7 +39,7 @@ class PagesCreateTest extends TestCase
         $response3->assertOk();
     }
 
-    public function testAdminCannotCreatePageWithoutTitle()
+    public function testAdminCannotCreatePageWithoutTitle(): void
     {
         $this->authenticateAsAdmin();
 
@@ -56,7 +56,7 @@ class PagesCreateTest extends TestCase
         $response->assertNotFound();
     }
 
-    public function testAdminCannotCreatePageWithoutContent()
+    public function testAdminCannotCreatePageWithoutContent(): void
     {
         $this->authenticateAsAdmin();
 
@@ -69,7 +69,7 @@ class PagesCreateTest extends TestCase
         //TODO: make sure the page doesn't exists
     }
 
-    public function testAdminCannotCreateDuplicatePage()
+    public function testAdminCannotCreateDuplicatePage(): void
     {
         $this->authenticateAsAdmin();
 
@@ -79,7 +79,7 @@ class PagesCreateTest extends TestCase
         $response->assertStatus(422);
     }
 
-    public function testGuestCannotCreatePage()
+    public function testGuestCannotCreatePage(): void
     {
         $page = Page::factory()->makeOne();
         $response = $this->postJson(
