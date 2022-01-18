@@ -5,8 +5,8 @@ namespace EscolaLms\Pages\Http\Controllers;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Pages\Http\Controllers\Contracts\PagesApiContract;
 use EscolaLms\Pages\Http\Exceptions\Contracts\Renderable;
-use EscolaLms\Pages\Http\Requests\PageListingRequest;
-use EscolaLms\Pages\Http\Requests\PageReadRequest;
+use EscolaLms\Pages\Http\Requests\PageFrontListingRequest;
+use EscolaLms\Pages\Http\Requests\PageFrontReadRequest;
 use EscolaLms\Pages\Http\Resources\PageResource;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use Illuminate\Http\JsonResponse;
@@ -20,7 +20,7 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         $this->pageService = $pageService;
     }
 
-    public function list(PageListingRequest $request): JsonResponse
+    public function list(PageFrontListingRequest $request): JsonResponse
     {
         try {
             $pages = $this->pageService->search(['active' => true]);
@@ -30,7 +30,7 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
         }
     }
 
-    public function read(PageReadRequest $request): JsonResponse
+    public function read(PageFrontReadRequest $request): JsonResponse
     {
         try {
             $slug = $request->getParamSlug();

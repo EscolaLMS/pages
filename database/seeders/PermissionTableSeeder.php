@@ -19,6 +19,8 @@ class PermissionTableSeeder extends Seeder
         $apiAdmin = Role::findOrCreate('admin', 'api');
         $webAdmin = Role::findOrCreate('admin', 'web');
         $permissions = [
+            PagesPermissionsEnum::PAGE_LIST,
+            PagesPermissionsEnum::PAGE_READ,
             PagesPermissionsEnum::PAGE_DELETE,
             PagesPermissionsEnum::PAGE_UPDATE,
             PagesPermissionsEnum::PAGE_CREATE,

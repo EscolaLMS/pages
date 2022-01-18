@@ -2,33 +2,19 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
+use EscolaLms\Pages\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class PageReadRequest extends FormRequest
 {
-
-
-    /**
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return Gate::allows('read', Page::class);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
-        return [
-        ];
-    }
-
-    public function getParamSlug()
-    {
-        return $this->route('slug');
+        return [];
     }
 }

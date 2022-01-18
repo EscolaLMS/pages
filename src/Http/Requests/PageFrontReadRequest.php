@@ -2,19 +2,22 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
-use EscolaLms\Pages\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
-class PageDeleteRequest extends FormRequest
+class PageFrontReadRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Gate::allows('delete', Page::class);
+        return true;
     }
 
     public function rules(): array
     {
         return [];
+    }
+
+    public function getParamSlug()
+    {
+        return $this->route('slug');
     }
 }

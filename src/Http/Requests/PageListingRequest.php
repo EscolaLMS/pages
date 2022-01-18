@@ -2,28 +2,19 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
-use Illuminate\Foundation\Auth\User;
+use EscolaLms\Pages\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class PageListingRequest extends FormRequest
 {
-    /**
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        /** @var User $user */
-        return true;
+        return Gate::allows('list', Page::class);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
-        return [
-        ];
+        return [];
     }
 }

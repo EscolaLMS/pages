@@ -16,7 +16,7 @@ class PagesUpdateTest extends TestCase
         return sprintf('/api/admin/pages/%s', $id);
     }
 
-    public function testAdminCanUpdateExistingPage()
+    public function testAdminCanUpdateExistingPage(): void
     {
         $this->authenticateAsAdmin();
 
@@ -37,7 +37,7 @@ class PagesUpdateTest extends TestCase
         $this->assertEquals($pageNew->content, $page->content);
     }
 
-    public function testAdminCanUpdateExistingPageWithMissingTitle()
+    public function testAdminCanUpdateExistingPageWithMissingTitle(): void
     {
         $this->authenticateAsAdmin();
 
@@ -59,7 +59,7 @@ class PagesUpdateTest extends TestCase
         $this->assertEquals($pageNew->content, $page->content);
     }
 
-    public function testAdminCanUpdateExistingPageWithMissingContent()
+    public function testAdminCanUpdateExistingPageWithMissingContent(): void
     {
         $this->authenticateAsAdmin();
 
@@ -81,7 +81,7 @@ class PagesUpdateTest extends TestCase
         $this->assertEquals($oldContent, $page->content);
     }
 
-    public function testAdminCannotUpdateMissingPage()
+    public function testAdminCannotUpdateMissingPage(): void
     {
         $this->authenticateAsAdmin();
 
@@ -99,7 +99,7 @@ class PagesUpdateTest extends TestCase
         $this->assertEquals(0, $page->newQuery()->where('slug', $page->slug)->count());
     }
 
-    public function testGuestCannotUpdateExistingPage()
+    public function testGuestCannotUpdateExistingPage(): void
     {
         $page = Page::factory()->createOne();
         $pageNew = Page::factory()->makeOne();
