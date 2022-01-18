@@ -2,30 +2,19 @@
 
 namespace EscolaLms\Pages\Http\Requests;
 
-use EscolaLms\Pages\Enums\PagesPermissionsEnum;
+use EscolaLms\Pages\Models\Page;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PageUpdateRequest extends FormRequest
 {
-
-
-    /**
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
-        /** @var User $user */
-        $user = $this->user();
-        return $user->can(PagesPermissionsEnum::PAGE_UPDATE, 'api');
+        return Gate::allows('update', Page::class);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'slug' => ['string', Rule::unique('pages')->ignore($this->route('id'))],
@@ -34,25 +23,17 @@ class PageUpdateRequest extends FormRequest
         ];
     }
 
-    /**
-     * @returns string
-     */
-    public function getParamSlug()
+    public function getParamSlug(): string
     {
         return $this->get('slug');
     }
-    /**
-     * @returns string
-     */
-    public function getParamTitle()
+
+    public function getParamTitle(): string
     {
         return $this->get('title');
     }
 
-    /**
-     * @returns string
-     */
-    public function getParamContent()
+    public function getParamContent(): string
     {
         return $this->get('content');
     }

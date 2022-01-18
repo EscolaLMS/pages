@@ -32,20 +32,20 @@ class PagePolicy
 
     /**
      * @param User $user
-     * @param Page $page
+     * @param ?Page $page
      * @return bool
      */
-    public function delete(User $user, Page $page): bool
+    public function delete(User $user, ?Page $page = null): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_DELETE);
     }
 
     /**
      * @param User $user
-     * @param Page $page
+     * @param ?Page $page
      * @return bool
      */
-    public function update(User $user, Page $page): bool
+    public function update(User $user, ?Page $page = null): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_UPDATE);
     }

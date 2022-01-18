@@ -2,11 +2,8 @@
 
 namespace EscolaLms\Pages\Http\Controllers\Contracts;
 
-use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
-use EscolaLms\Pages\Http\Requests\PageCreateRequest;
-use EscolaLms\Pages\Http\Requests\PageListingRequest;
-use EscolaLms\Pages\Http\Requests\PageUpdateRequest;
-use EscolaLms\Pages\Http\Requests\PageReadRequest;
+use EscolaLms\Pages\Http\Requests\PageFrontListingRequest;
+use EscolaLms\Pages\Http\Requests\PageFrontReadRequest;
 use Illuminate\Http\JsonResponse;
 
 interface PagesApiContract
@@ -44,14 +41,10 @@ interface PagesApiContract
      *      ),
      * )
      *
-     * @param PageListingRequest $request
+     * @param PageFrontListingRequest $request
      * @return JsonResponse
      */
-    public function list(PageListingRequest $request): JsonResponse;
-
-
-
-
+    public function list(PageFrontListingRequest $request): JsonResponse;
 
     /**
      * @OA\Get(
@@ -86,8 +79,8 @@ interface PagesApiContract
      *      ),
      * )
      *
-     * @param PageListingRequest $request
+     * @param PageFrontReadRequest $request
      * @return JsonResponse
      */
-    public function read(PageReadRequest $request): JsonResponse;
+    public function read(PageFrontReadRequest $request): JsonResponse;
 }

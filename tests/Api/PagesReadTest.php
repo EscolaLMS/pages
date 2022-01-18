@@ -40,13 +40,4 @@ class PagesReadTest extends TestCase
         $response->assertOk();
         $response->assertJsonFragment(collect($page->getAttributes())->except('id', 'slug')->toArray());
     }
-
-    public function testGuestCannotReadExisting(): void
-    {
-        $page = Page::factory()->createOne();
-
-        $response = $this->getJson($this->uri($page->slug));
-
-        $response->assertUnauthorized();
-    }
 }

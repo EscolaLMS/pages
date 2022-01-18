@@ -80,10 +80,4 @@ class PagesListTest extends TestCase
             $pagesArr[0]
         );
     }
-
-    public function testGuestCannotList(): void
-    {
-        $response = $this->getJson('/api/pages');
-        $response->assertUnauthorized();
-    }
 }
