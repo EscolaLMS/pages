@@ -9,14 +9,27 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PageUpdateRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        parent::prepareForValidation();
+        $this->merge(['id' => $this->route('id')]);
+    }
+
     public function authorize(): bool
     {
-        return Gate::allows('update', Page::class);
+        $page = $this->getPage();
+
+        return Gate::allows('update', $page);
     }
 
     public function rules(): array
     {
         return [
+            'id' => [
+                'integer',
+                'required',
+                Rule::exists(Page::class, 'id'),
+            ],
             'slug' => ['string', Rule::unique('pages')->ignore($this->route('id'))],
             'title' => ['string'],
             'content' => ['string'],
@@ -36,5 +49,15 @@ class PageUpdateRequest extends FormRequest
     public function getParamContent(): string
     {
         return $this->get('content');
+    }
+
+    public function getParamId()
+    {
+        return $this->route('id');
+    }
+
+    public function getPage(): Page
+    {
+        return Page::findOrFail($this->route('id'));
     }
 }

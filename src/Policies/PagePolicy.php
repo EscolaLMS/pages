@@ -16,36 +16,27 @@ class PagePolicy
         return $user->can(PagesPermissionsEnum::PAGE_LIST);
     }
 
-    public function read(User $user): bool
+    public function read(User $user, Page $page): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_READ);
     }
 
-    /**
-     * @param User $user
-     * @return bool
-     */
+    public function readFront(?User $user, Page $page): bool
+    {
+        return $page->active ?? false;
+    }
+
     public function create(User $user): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_CREATE);
     }
 
-    /**
-     * @param User $user
-     * @param ?Page $page
-     * @return bool
-     */
-    public function delete(User $user, ?Page $page = null): bool
+    public function delete(User $user, Page $page): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_DELETE);
     }
 
-    /**
-     * @param User $user
-     * @param ?Page $page
-     * @return bool
-     */
-    public function update(User $user, ?Page $page = null): bool
+    public function update(User $user, Page $page): bool
     {
         return $user->can(PagesPermissionsEnum::PAGE_UPDATE);
     }
