@@ -46,9 +46,6 @@ interface PagesAdminApiContract
      *          description="server-side error",
      *      ),
      * )
-     *
-     * @param PageListingRequest $request
-     * @return JsonResponse
      */
     public function list(PageListingRequest $request): JsonResponse;
 
@@ -90,9 +87,6 @@ interface PagesAdminApiContract
      *          description="server-side error",
      *      ),
      * )
-     *
-     * @param PageCreateRequest $request
-     * @return JsonResponse
      */
     public function create(PageCreateRequest $request): JsonResponse;
 
@@ -143,9 +137,6 @@ interface PagesAdminApiContract
      *          description="server-side error",
      *      ),
      * )
-     *
-     * @param PageUpdateRequest $request
-     * @return JsonResponse
      */
     public function update(PageUpdateRequest $request, int $id): JsonResponse;
 
@@ -187,9 +178,6 @@ interface PagesAdminApiContract
      *          description="server-side error",
      *      ),
      * )
-     *
-     * @param PageDeleteRequest $request
-     * @return JsonResponse
      */
     public function delete(PageDeleteRequest $request, int $id): JsonResponse;
 
@@ -228,9 +216,6 @@ interface PagesAdminApiContract
      *          description="server-side error",
      *      ),
      * )
-     *
-     * @param PageListingRequest $request
-     * @return JsonResponse
      */
     public function read(PageReadRequest $request, int $id): JsonResponse;
 }

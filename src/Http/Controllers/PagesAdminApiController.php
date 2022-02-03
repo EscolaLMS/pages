@@ -4,7 +4,6 @@ namespace EscolaLms\Pages\Http\Controllers;
 
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Pages\Http\Controllers\Contracts\PagesAdminApiContract;
-use EscolaLms\Pages\Http\Exceptions\Contracts\Renderable;
 use EscolaLms\Pages\Http\Requests\PageCreateRequest;
 use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
 use EscolaLms\Pages\Http\Requests\PageListingRequest;
@@ -26,68 +25,44 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
 
     public function list(PageListingRequest $request): JsonResponse
     {
-        try {
-            $pages = $this->pageService->search();
-            return $this->sendResponseForResource(PageResource::collection($pages), "pages list retrieved successfully");
-        } catch (Renderable $e) {
-            return $this->sendError($e->getMessage());
-        }
+        $pages = $this->pageService->search();
+        return $this->sendResponseForResource(
+            PageResource::collection($pages),
+            __("pages list retrieved successfully")
+        );
     }
 
     public function create(PageCreateRequest $request): JsonResponse
     {
-        try {
-            $slug = $request->getParamSlug();
-            $title = $request->getParamTitle();
-            $content = $request->getParamContent();
-            $active = $request->get('active');
+        $slug = $request->getParamSlug();
+        $title = $request->getParamTitle();
+        $content = $request->getParamContent();
+        $active = $request->get('active');
 
-            $user = Auth::user();
-            $page = $this->pageService->insert($slug, $title, $content, $user->id, $active);
-            return $this->sendResponseForResource(PageResource::make($page), "page created successfully");
-        } catch (Renderable $e) {
-            return $this->sendError($e->getMessage());
-        }
+        $user = Auth::user();
+        $page = $this->pageService->insert($slug, $title, $content, $user->id, $active);
+        return $this->sendResponseForResource(PageResource::make($page), __("page created successfully"));
     }
 
     public function update(PageUpdateRequest $request, int $id): JsonResponse
     {
-        try {
-            $input = $request->all();
+        $input = $request->all();
+        $updated = $this->pageService->update($id, $input);
 
-            $updated = $this->pageService->update($id, $input);
-            if (!$updated) {
-                return $this->sendError(sprintf("Page with slug '%s' doesn't exists", $id), 404);
-            }
-            return $this->sendResponseForResource(PageResource::make($updated), "page updated successfully");
-        } catch (Renderable $e) {
-            return $this->sendError($e->getMessage());
-        }
+        return $this->sendResponseForResource(PageResource::make($updated), __("page updated successfully"));
     }
 
     public function delete(PageDeleteRequest $request, int $id): JsonResponse
     {
-        try {
-            $deleted = $this->pageService->deleteById($id);
-            if (!$deleted) {
-                return $this->sendError(sprintf("Page with id '%s' doesn't exists", $id), 404);
-            }
-            return $this->sendResponse($deleted, "page updated successfully");
-        } catch (Renderable $e) {
-            return $this->sendError($e->getMessage());
-        }
+        $deleted = $this->pageService->deleteById($id);
+
+        return $this->sendResponse($deleted, __("page updated successfully"));
     }
 
     public function read(PageReadRequest $request, int $id): JsonResponse
     {
-        try {
-            $page = $this->pageService->getById($id);
-            if ($page->exists) {
-                return $this->sendResponseForResource(PageResource::make($page), "page fetched successfully");
-            }
-            return $this->sendError(sprintf("Page with id '%s' doesn't exists", $id), 404);
-        } catch (Renderable $e) {
-            return $this->sendError($e->getMessage());
-        }
+        $page = $this->pageService->getById($id);
+
+        return $this->sendResponseForResource(PageResource::make($page), __("page fetched successfully"));
     }
 }

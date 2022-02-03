@@ -4,7 +4,6 @@ namespace EscolaLms\Pages\Http\Controllers;
 
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
 use EscolaLms\Pages\Http\Controllers\Contracts\PagesApiContract;
-use EscolaLms\Pages\Http\Exceptions\Contracts\Renderable;
 use EscolaLms\Pages\Http\Requests\PageFrontListingRequest;
 use EscolaLms\Pages\Http\Requests\PageFrontReadRequest;
 use EscolaLms\Pages\Http\Resources\PageResource;
@@ -22,28 +21,18 @@ class PagesApiController extends EscolaLmsBaseController implements PagesApiCont
 
     public function list(PageFrontListingRequest $request): JsonResponse
     {
-        try {
-            $pages = $this->pageService->search(['active' => true]);
-            return $this->sendResponseForResource(PageResource::collection($pages), "pages list retrieved successfully");
-        } catch (Renderable $e) {
-            return $this->sendError($e->getMessage());
-        }
+        $pages = $this->pageService->search(['active' => true]);
+
+        return $this->sendResponseForResource(
+            PageResource::collection($pages),
+            __("pages list retrieved successfully")
+        );
     }
 
     public function read(PageFrontReadRequest $request): JsonResponse
     {
-        try {
-            $slug = $request->getParamSlug();
-            $page = $this->pageService->getBySlug($slug);
-            if ($page->exists) {
-                if (!$page->active) {
-                    return $this->sendError(sprintf("You don't have access to page with slug '%s'", $slug), 403);
-                }
-                return $this->sendResponseForResource(PageResource::make($page), "page fetched successfully");
-            }
-            return $this->sendError(sprintf("Page with slug '%s' doesn't exists", $slug), 404);
-        } catch (Renderable $e) {
-            return $this->sendError($e->getMessage());
-        }
+        $page = $this->pageService->getBySlug($request->getParamSlug());
+
+        return $this->sendResponseForResource(PageResource::make($page), __("page fetched successfully"));
     }
 }

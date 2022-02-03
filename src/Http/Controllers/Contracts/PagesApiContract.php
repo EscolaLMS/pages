@@ -40,9 +40,6 @@ interface PagesApiContract
      *          description="server-side error",
      *      ),
      * )
-     *
-     * @param PageFrontListingRequest $request
-     * @return JsonResponse
      */
     public function list(PageFrontListingRequest $request): JsonResponse;
 
@@ -78,9 +75,6 @@ interface PagesApiContract
      *          description="server-side error",
      *      ),
      * )
-     *
-     * @param PageFrontReadRequest $request
-     * @return JsonResponse
      */
     public function read(PageFrontReadRequest $request): JsonResponse;
 }
