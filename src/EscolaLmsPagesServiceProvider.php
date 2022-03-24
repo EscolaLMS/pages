@@ -2,7 +2,6 @@
 
 namespace EscolaLms\Pages;
 
-use EscolaLms\Core\Providers\Injectable;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use EscolaLms\Pages\Http\Services\PageService;
 use EscolaLms\Pages\Http\Exceptions\Handler;
@@ -16,18 +15,10 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
  */
 class EscolaLmsPagesServiceProvider extends ServiceProvider
 {
-    use Injectable;
-
-    private const CONTRACTS = [
+    public $singletons = [
         PageRepositoryContract::class => PageRepository::class,
         PageServiceContract::class => PageService::class,
     ];
-
-    public function register()
-    {
-        parent::register();
-        $this->injectContract(self::CONTRACTS);
-    }
 
     public function boot()
     {
