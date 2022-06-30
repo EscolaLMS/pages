@@ -4,11 +4,9 @@ namespace EscolaLms\Pages;
 
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use EscolaLms\Pages\Http\Services\PageService;
-use EscolaLms\Pages\Http\Exceptions\Handler;
 use EscolaLms\Pages\Repository\Contracts\PageRepositoryContract;
 use EscolaLms\Pages\Repository\PageRepository;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Debug\ExceptionHandler;
 
 /**
  * SWAGGER_VERSION
@@ -22,11 +20,6 @@ class EscolaLmsPagesServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->bind(
-            ExceptionHandler::class,
-            Handler::class
-        );
-
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'pages-migrations');
