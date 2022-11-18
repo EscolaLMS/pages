@@ -33,5 +33,6 @@ class EscolaLmsPagesServiceProvider extends ServiceProvider
         if (!config('escolalms.tags.ignore_migrations')) {
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         }
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'page');
     }
 }
