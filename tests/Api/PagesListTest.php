@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Tests\Api;
 
+use EscolaLms\Core\Models\User;
 use EscolaLms\Pages\Models\Page;
 use EscolaLms\Pages\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -44,6 +45,129 @@ class PagesListTest extends TestCase
         $response->assertJsonFragment(
             $pagesArr[0],
         );
+    }
+
+    public function testListWithFiltersAndSorts(): void
+    {
+        $this->authenticateAsAdmin();
+        $userOne = User::factory()->create();
+        $userTwo = User::factory()->create();
+
+        $pageOne = Page::factory()->create([
+            'title' => 'One Page',
+            'slug' => 'one-page',
+            'author_id' => $userOne->id,
+            'active' => true
+        ]);
+
+        $pageTwo = Page::factory()->create([
+            'title' => 'Two Page',
+            'slug' => 'two-page',
+            'author_id' => $userTwo->id,
+            'active' => true
+        ]);
+
+        $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'title' => 'One'
+            ])
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment([
+                'id' => $pageOne->id,
+            ]);
+
+        $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'slug' => 'one'
+            ])
+            ->assertOk()
+            ->assertJsonCount(1, 'data')
+            ->assertJsonFragment([
+                'id' => $pageOne->id,
+            ]);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'title',
+                'order' => 'ASC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'title',
+                'order' => 'DESC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'author_id',
+                'order' => 'ASC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'author_id',
+                'order' => 'DESC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'slug',
+                'order' => 'ASC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'slug',
+                'order' => 'DESC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'id',
+                'order' => 'ASC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'id',
+                'order' => 'DESC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
     }
 
     public function testAnonymousCanListEmpty(): void

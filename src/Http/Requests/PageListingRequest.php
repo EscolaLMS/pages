@@ -15,6 +15,12 @@ class PageListingRequest extends FormRequest
 
     public function rules(): array
     {
-        return [];
+        return [
+            'title' => ['sometimes', 'string'],
+            'slug' => ['sometimes', 'string'],
+            'author_id' => ['sometimes', 'integer', 'exists:users,id'],
+            'order_by' => ['sometimes', 'string', 'in:id,title,slug,author_id,active'],
+            'order' => ['sometimes', 'string', 'in:ASC,DESC'],
+        ];
     }
 }

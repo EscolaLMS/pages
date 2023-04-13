@@ -2,7 +2,9 @@
 
 namespace EscolaLms\Pages\Http\Controllers;
 
+use EscolaLms\Core\Dtos\OrderDto;
 use EscolaLms\Core\Http\Controllers\EscolaLmsBaseController;
+use EscolaLms\Pages\Dtos\PagesFilterCriteriaDto;
 use EscolaLms\Pages\Http\Controllers\Contracts\PagesAdminApiContract;
 use EscolaLms\Pages\Http\Requests\PageCreateRequest;
 use EscolaLms\Pages\Http\Requests\PageDeleteRequest;
@@ -25,7 +27,11 @@ class PagesAdminApiController extends EscolaLmsBaseController implements PagesAd
 
     public function list(PageListingRequest $request): JsonResponse
     {
-        $pages = $this->pageService->search();
+        $pages = $this->pageService->list(
+            PagesFilterCriteriaDto::instantiateFromRequest($request)->toArray(),
+            OrderDto::instantiateFromRequest($request)
+        );
+
         return $this->sendResponseForResource(
             PageResource::collection($pages),
             __("pages list retrieved successfully")

@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Http\Services\Contracts;
 
+use EscolaLms\Core\Dtos\OrderDto;
 use EscolaLms\Pages\Models\Page;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -12,6 +13,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface PageServiceContract
 {
     public function search(array $search = []): LengthAwarePaginator;
+
+    public function list(array $criteria, OrderDto $orderDto): LengthAwarePaginator;
 
     public function getBySlug(string $slug): Page;
 

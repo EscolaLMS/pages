@@ -2,6 +2,7 @@
 
 namespace EscolaLms\Pages\Http\Services;
 
+use EscolaLms\Core\Dtos\OrderDto;
 use EscolaLms\Pages\Http\Exceptions\PageAlreadyExistsException;
 use EscolaLms\Pages\Http\Services\Contracts\PageServiceContract;
 use EscolaLms\Pages\Models\Page;
@@ -20,6 +21,16 @@ class PageService implements PageServiceContract
     public function search(array $search = []): LengthAwarePaginator
     {
         return $this->repository->searchAndPaginate($search);
+    }
+
+    public function list(array $criteria, OrderDto $orderDto): LengthAwarePaginator
+    {
+        $query = $this->repository->queryWithAppliedCriteria($criteria);
+        if ($orderDto->getOrderBy()) {
+            $query->orderBy($orderDto->getOrderBy(), $orderDto->getOrder() ?? 'asc');
+        }
+
+        return $query->paginate();
     }
 
     public function getBySlug(string $slug): Page
