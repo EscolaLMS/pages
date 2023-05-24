@@ -57,14 +57,16 @@ class PagesListTest extends TestCase
             'title' => 'One Page',
             'slug' => 'one-page',
             'author_id' => $userOne->id,
-            'active' => true
+            'active' => true,
+            'created_at' => now()->subDay()
         ]);
 
         $pageTwo = Page::factory()->create([
             'title' => 'Two Page',
             'slug' => 'two-page',
             'author_id' => $userTwo->id,
-            'active' => true
+            'active' => true,
+            'created_at' => now()
         ]);
 
         $this
@@ -96,8 +98,28 @@ class PagesListTest extends TestCase
                 'order' => 'ASC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
-        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.0.id') === $pageOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->getKey());
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'created_at',
+                'order' => 'DESC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageOne->getKey());
+
+        $response = $this
+            ->actingAs($this->user, 'api')
+            ->json('GET', '/api/admin/pages', [
+                'order_by' => 'created_at',
+                'order' => 'ASC'
+            ]);
+
+        $this->assertTrue($response->json('data.0.id') === $pageOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->getKey());
 
         $response = $this
             ->actingAs($this->user, 'api')
@@ -106,8 +128,8 @@ class PagesListTest extends TestCase
                 'order' => 'DESC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
-        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageOne->getKey());
 
         $response = $this
             ->actingAs($this->user, 'api')
@@ -116,8 +138,8 @@ class PagesListTest extends TestCase
                 'order' => 'ASC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
-        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.0.id') === $pageOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->getKey());
 
         $response = $this
             ->actingAs($this->user, 'api')
@@ -126,8 +148,8 @@ class PagesListTest extends TestCase
                 'order' => 'DESC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
-        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageOne->getKey());
 
         $response = $this
             ->actingAs($this->user, 'api')
@@ -136,8 +158,8 @@ class PagesListTest extends TestCase
                 'order' => 'ASC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
-        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.0.id') === $pageOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->getKey());
 
         $response = $this
             ->actingAs($this->user, 'api')
@@ -146,8 +168,8 @@ class PagesListTest extends TestCase
                 'order' => 'DESC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
-        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageOne->getKey());
 
         $response = $this
             ->actingAs($this->user, 'api')
@@ -156,8 +178,8 @@ class PagesListTest extends TestCase
                 'order' => 'ASC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageOne->id);
-        $this->assertTrue($response->json('data.1.id') === $pageTwo->id);
+        $this->assertTrue($response->json('data.0.id') === $pageOne->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageTwo->getKey());
 
         $response = $this
             ->actingAs($this->user, 'api')
@@ -166,8 +188,8 @@ class PagesListTest extends TestCase
                 'order' => 'DESC'
             ]);
 
-        $this->assertTrue($response->json('data.0.id') === $pageTwo->id);
-        $this->assertTrue($response->json('data.1.id') === $pageOne->id);
+        $this->assertTrue($response->json('data.0.id') === $pageTwo->getKey());
+        $this->assertTrue($response->json('data.1.id') === $pageOne->getKey());
     }
 
     public function testAnonymousCanListEmpty(): void
